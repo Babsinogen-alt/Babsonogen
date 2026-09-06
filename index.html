@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<title>Sonogen — Obstetric &amp; Sonographic Biometry</title>
+<title>Babsinogen — Obstetric &amp; Sonographic Biometry</title>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#0E1216">
 <link rel="icon" href="icon-192.png">
@@ -11,7 +11,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Sonogen">
+<meta name="apple-mobile-web-app-title" content="Babsinogen">
 <style>
   :root {
     --ink: #0E1216;
@@ -37,7 +37,6 @@
   .eyebrow { font-family: var(--mono); font-size: 11px; letter-spacing: 0.16em; color: var(--phosphor); margin-bottom: 8px; }
   .title-row { display: flex; align-items: center; gap: 10px; }
   .title-row h1 { font-family: var(--mono); font-size: 27px; font-weight: 700; letter-spacing: -0.01em; }
-  .signature { font-size: 11px; color: var(--phosphor); margin-top: 6px; letter-spacing: 0.03em; }
   .tagline { font-size: 13px; color: var(--muted); margin-top: 6px; line-height: 1.5; }
   .offline-chip {
     display: inline-flex; align-items: center; gap: 5px; font-family: var(--mono); font-size: 10px;
@@ -168,6 +167,40 @@
   }
   .quiz-nav button:disabled { opacity: 0.35; cursor: not-allowed; }
 
+
+  .tabs { position: sticky; top: 0; z-index: 20; background: var(--ink); padding-top: 2px; }
+  .tab { min-height: 44px; }
+  .hero-meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; align-items: center; }
+  .timeline { display: flex; flex-direction: column; gap: 0; }
+  .tl-row { display: grid; grid-template-columns: 88px 1fr; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--line); }
+  .tl-day { font-family: var(--mono); font-size: 12px; color: var(--phosphor); }
+  .tl-body { font-size: 13px; line-height: 1.5; }
+  .tl-body strong { font-weight: 600; }
+  .impression { background: var(--panel2); border: 1px solid var(--line); border-left: 3px solid var(--phosphor); padding: 14px 16px; border-radius: 4px; margin-top: 12px; }
+  .impression.warn { border-left-color: var(--signal); }
+  .impression.danger { border-left-color: var(--danger); }
+  .impression h3 { font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+  .impression p { font-size: 14px; line-height: 1.55; }
+  .scan-card { border: 1px solid var(--line); border-radius: 6px; padding: 14px; margin-bottom: 10px; background: var(--panel2); }
+  .scan-card.sel { border-color: var(--phosphor); }
+  .scan-head { display: flex; justify-content: space-between; gap: 8px; align-items: baseline; margin-bottom: 8px; }
+  .btn-ghost {
+    background: var(--ink); border: 1px solid var(--line); color: var(--paper);
+    font-family: var(--mono); font-size: 12px; padding: 10px 12px; border-radius: 5px; cursor: pointer;
+  }
+  .btn-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+  .btn-row .btn-primary, .btn-row .btn-ghost, .btn-row .btn-danger { width: auto; display: inline-block; margin: 0; padding: 10px 14px; }
+  .foll-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  .foll-table th, .foll-table td { padding: 7px 6px; border-bottom: 1px solid var(--line); text-align: left; }
+  .foll-table th { color: var(--muted); font-family: var(--mono); font-size: 10.5px; text-transform: uppercase; }
+  .foll-table input, .foll-table select {
+    background: var(--ink); border: 1px solid var(--line); color: var(--paper);
+    font-family: var(--mono); font-size: 13px; padding: 6px 8px; width: 100%; border-radius: 4px;
+  }
+  .rules-table td { vertical-align: top; font-size: 12px; line-height: 1.45; }
+  .kbd { font-family: var(--mono); font-size: 11px; color: var(--phosphor); }
+  .phase-chip { font-family: var(--mono); font-size: 11px; padding: 3px 8px; border-radius: 99px; border: 1px solid var(--line); color: var(--muted); }
+
   #report-view { display: none; }
   @media print {
     body { background: #fff; padding: 0; }
@@ -179,10 +212,6 @@
     .report-header { border-bottom: 2px solid #111; padding-bottom: 10px; margin-bottom: 16px; }
     .report-title { font-size: 20px; font-weight: 700; }
     .report-meta { font-size: 12px; color: #444; margin-top: 4px; }
-    #report-impression { background: #f4f4f2; border: 1px solid #ccc; border-radius: 4px; padding: 12px 14px; margin-bottom: 18px; }
-    #report-impression p { font-size: 12.5px; line-height: 1.6; margin: 0 0 8px; }
-    #report-impression p:last-child { margin-bottom: 0; }
-    #report-view > h3 { font-size: 14px; border-bottom: 1px solid #ccc; padding-bottom: 4px; margin: 0 0 8px; }
     #report-body h3 { font-size: 14px; border-bottom: 1px solid #ccc; padding-bottom: 4px; margin: 18px 0 8px; }
     #report-body .rline { display: flex; justify-content: space-between; font-size: 12.5px; padding: 3px 0; border-bottom: 1px dotted #ddd; }
     #report-body .rflag { font-size: 12px; padding: 4px 0; color: #900; }
@@ -194,30 +223,28 @@
 <div class="app" id="app">
 
   <header class="header">
-    <div class="eyebrow">SONOGEN &middot; CLINICAL TOOLS</div>
+    <div class="eyebrow">BABSINOGEN &middot; CLINICAL TOOLS</div>
     <div class="title-row">
       <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
         <line x1="11" y1="2" x2="11" y2="20" stroke="#5EEAD4" stroke-width="1.4"/>
         <line x1="2" y1="11" x2="20" y2="11" stroke="#5EEAD4" stroke-width="1.4"/>
         <circle cx="11" cy="11" r="3.4" stroke="#F5A623" stroke-width="1.4"/>
       </svg>
-      <h1>Sonogen</h1>
+      <h1>Babsinogen</h1>
     </div>
-    <p class="signature">by Babsinogen</p>
-    <p class="tagline">Caliper module &mdash; head shape, weight, dating, growth, Doppler, and organ size, from your own measurements.</p>
-    <div class="offline-chip"><span class="dot"></span>Works fully offline once installed &mdash; no data leaves this device</div>
-    <div class="offline-chip" style="margin-top:6px;">Decision support only &mdash; not a substitute for clinical judgement. Full sources under References.</div>
+    <p class="tagline">Structured obstetric biometry, Doppler, anomaly markers, and serial folliculometry &mdash; from the measurements you enter. Decision support only.</p>
+    <div class="hero-meta"><div class="offline-chip"><span class="dot"></span>Works fully offline once installed &mdash; no data leaves this device</div></div>
   </header>
 
-  <nav class="tabs">
-    <button class="tab" data-tab="biometry">Biometry</button>
+  <nav class="tabs" aria-label="Clinical modules">
     <button class="tab" data-tab="dating">Dating &amp; EDD</button>
+    <button class="tab" data-tab="biometry">Biometry</button>
     <button class="tab" data-tab="doppler">Doppler</button>
+    <button class="tab" data-tab="anomaly">Anomaly</button>
+    <button class="tab" data-tab="follicle">Folliculometry</button>
     <button class="tab" data-tab="organ">Organ Size</button>
-    <button class="tab" data-tab="log">Patient Log</button>
-    <button class="tab" data-tab="anomaly">Anomaly Scan</button>
+    <button class="tab" data-tab="log">Reports &amp; Log</button>
     <button class="tab" data-tab="quiz">Quiz</button>
-    <button class="tab" data-tab="references">References</button>
   </nav>
 
   <!-- ===================== TAB 1: BIOMETRY ===================== -->
@@ -234,7 +261,6 @@
             <div class="field"><label>BPD</label><div class="row"><input id="b-bpd" type="number" inputMode="decimal" step="0.1" placeholder="—"><span class="suffix" id="u1">cm</span></div></div>
             <div class="field"><label>OFD</label><div class="row"><input id="b-ofd" type="number" inputMode="decimal" step="0.1" placeholder="—"><span class="suffix" id="u2">cm</span></div></div>
           </div>
-          <div class="field"><label>HC, if measured directly (optional \u2014 overrides the BPD+OFD calculation below when filled in)</label><div class="row"><input id="b-hc-direct" type="number" inputMode="decimal" step="0.1" placeholder="\u2014"><span class="suffix" id="u5">cm</span></div></div>
           <div class="grid2">
             <div class="field"><label>AC *</label><div class="row"><input id="b-ac" type="number" inputMode="decimal" step="0.1" placeholder="—"><span class="suffix" id="u3">cm</span></div></div>
             <div class="field"><label>FL *</label><div class="row"><input id="b-fl" type="number" inputMode="decimal" step="0.1" placeholder="—"><span class="suffix" id="u4">cm</span></div></div>
@@ -291,23 +317,6 @@
         <div class="card" id="redate-card"></div>
         <div class="card" id="fhr-card"></div>
       </div>
-    </div>
-
-    <div class="card">
-      <div class="card-title">Key Dates</div>
-      <p class="subhead">Edit any date below and the rest recalculate from it &mdash; useful if you know a due date or conception date but not the LMP, for example.</p>
-      <div class="grid2">
-        <div class="field"><label>Conception (est.)</label><div class="row"><input id="kd-conception" type="date"></div></div>
-        <div class="field"><label>2nd trimester begins</label><div class="row"><input id="kd-tri2" type="date"></div></div>
-      </div>
-      <div class="grid2">
-        <div class="field"><label>3rd trimester begins</label><div class="row"><input id="kd-tri3" type="date"></div></div>
-        <div class="field"><label>Estimated due date</label><div class="row"><input id="kd-edd" type="date"></div></div>
-      </div>
-      <div class="hairline">
-        <div class="compare-row"><span class="compare-label">Fertile window (this cycle)</span><span class="compare-value" id="kd-fertile">\u2014</span></div>
-      </div>
-      <p class="note" id="kd-explain"></p>
     </div>
   </section>
 
@@ -389,13 +398,6 @@
         <div id="log-list"><p class="empty">None saved yet.</p></div>
         <button class="btn-danger" id="log-delete-all-btn" style="margin-top:14px;">Delete All Saved Episodes</button>
       </div>
-
-      <div class="card">
-        <div class="card-title">Contact the Developer</div>
-        <p class="subhead">Bugs, feature requests, or clinical corrections \u2014 all welcome.</p>
-        <div class="compare-row"><span class="compare-label">Email</span><span class="compare-value"><a href="mailto:babarindekunle7@gmail.com" style="color:var(--phosphor);text-decoration:none;">babarindekunle7@gmail.com</a></span></div>
-        <div class="compare-row"><span class="compare-label">WhatsApp</span><span class="compare-value"><a href="https://wa.me/2348137320263" style="color:var(--phosphor);text-decoration:none;">+234 813 732 0263</a></span></div>
-      </div>
     </div>
   </section>
 
@@ -411,58 +413,250 @@
     </div>
   </section>
 
+
+  <!-- ===================== TAB: FOLLICULOMETRY ===================== -->
+  <section class="panel-view" id="view-follicle">
+    <div class="layout">
+      <div>
+        <div class="card">
+          <div class="card-title">Cycle Context</div>
+          <p class="subhead">Interpretation is trend-based and cycle-aware. Cycle length is not assumed to be 28 days. Expected ovulation is modelled as cycle length minus luteal length (default 14 days, typical range 12–16).</p>
+          <div class="field">
+            <label>Cycle type</label>
+            <div class="row">
+              <select id="f-cycle-type">
+                <option value="natural">Natural / unstimulated</option>
+                <option value="irregular">Irregular / oligo-ovulatory</option>
+                <option value="oi">Ovulation induction</option>
+                <option value="iui">IUI cycle</option>
+                <option value="art">ART / IVF stimulation</option>
+              </select>
+            </div>
+          </div>
+          <div class="grid2">
+            <div class="field"><label>Cycle day 1 / LMP</label><div class="row"><input id="f-cd1" type="date"></div></div>
+            <div class="field"><label>Typical cycle length</label><div class="row"><input id="f-cycle-len" type="number" inputMode="numeric" min="21" max="90" placeholder="28"><span class="suffix">days</span></div></div>
+          </div>
+          <div class="grid2">
+            <div class="field"><label>Assumed luteal length</label><div class="row"><input id="f-luteal" type="number" inputMode="numeric" min="10" max="16" placeholder="14"><span class="suffix">days</span></div></div>
+            <div class="field"><label>Trigger date (if used)</label><div class="row"><input id="f-trigger-date" type="date"></div></div>
+          </div>
+          <div class="field">
+            <label>Trigger type</label>
+            <div class="row">
+              <select id="f-trigger-type">
+                <option value="none">None / spontaneous LH</option>
+                <option value="hcg">hCG trigger</option>
+                <option value="agonist">GnRH agonist trigger</option>
+                <option value="dual">Dual trigger</option>
+              </select>
+            </div>
+          </div>
+          <p class="note">hCG trigger: oocyte maturation is typically ~36–40 hours later. IUI is commonly timed 24–36 hours after trigger according to local protocol — this tool does not schedule procedures.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Add / Edit Scan</div>
+          <div class="field"><label>Scan date</label><div class="row"><input id="f-scan-date" type="date"></div></div>
+          <div class="grid2">
+            <div class="field"><label>Cycle day (auto from day 1; editable)</label><div class="row"><input id="f-cd" type="number" inputMode="numeric" min="1" max="90" placeholder="—"></div></div>
+            <div class="field">
+              <label>Approach</label>
+              <div class="row">
+                <select id="f-approach">
+                  <option value="tv">Transvaginal</option>
+                  <option value="ta">Transabdominal</option>
+                  <option value="both">TA + TV</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="hairline">
+            <div class="card-title" style="margin-bottom:8px;">Follicles (mean diameter)</div>
+            <p class="note" style="margin-top:0;">Enter 2 or 3 orthogonal diameters in mm. Mean = (d1+d2)/2 or (d1+d2+d3)/3. Track follicles ≥10 mm closely; smaller cohort follicles may be summarised.</p>
+            <table class="foll-table" id="f-foll-table">
+              <thead>
+                <tr><th>Ovary</th><th>d1</th><th>d2</th><th>d3</th><th></th></tr>
+              </thead>
+              <tbody id="f-foll-body"></tbody>
+            </table>
+            <div class="btn-row">
+              <button type="button" class="btn-ghost" id="f-add-foll">Add follicle</button>
+            </div>
+          </div>
+
+          <div class="hairline">
+            <div class="card-title" style="margin-bottom:8px;">Endometrium</div>
+            <div class="grid2">
+              <div class="field"><label>Thickness</label><div class="row"><input id="f-em-mm" type="number" inputMode="decimal" step="0.1" placeholder="e.g. 8.5"><span class="suffix">mm</span></div></div>
+              <div class="field">
+                <label>Pattern</label>
+                <div class="row">
+                  <select id="f-em-pattern">
+                    <option value="">—</option>
+                    <option value="menstrual">Menstrual / shed</option>
+                    <option value="thin_prolif">Thin proliferative</option>
+                    <option value="trilaminar">Trilaminar / triple-line</option>
+                    <option value="periovulatory">Periovulatory (prominent midline)</option>
+                    <option value="secretory">Secretory / homogeneous</option>
+                    <option value="indeterminate">Indeterminate</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="hairline">
+            <div class="card-title" style="margin-bottom:8px;">Ovulation signs</div>
+            <div class="field">
+              <label>Leading follicle wall</label>
+              <div class="row">
+                <select id="f-wall">
+                  <option value="smooth">Smooth / thin</option>
+                  <option value="crenated">Crenated / irregular</option>
+                  <option value="collapsed">Collapsed / not seen as follicle</option>
+                  <option value="not_seen">Not visualised</option>
+                </select>
+              </div>
+            </div>
+            <div class="field">
+              <label>Internal echoes in leading follicle</label>
+              <div class="row">
+                <select id="f-echoes">
+                  <option value="none">Anechoic (none)</option>
+                  <option value="fine">Fine internal echoes</option>
+                  <option value="mixed">Mixed / hemorrhagic</option>
+                </select>
+              </div>
+            </div>
+            <div class="field">
+              <label>Pelvic free fluid</label>
+              <div class="row">
+                <select id="f-fluid">
+                  <option value="none">None</option>
+                  <option value="small">Small pouch of Douglas</option>
+                  <option value="moderate">Moderate</option>
+                  <option value="large">Large</option>
+                </select>
+              </div>
+            </div>
+            <div class="grid2">
+              <div class="field">
+                <label>Corpus luteum</label>
+                <div class="row">
+                  <select id="f-cl">
+                    <option value="none">Not seen</option>
+                    <option value="suspected">Suspected</option>
+                    <option value="typical">Typical (thick wall ± ring of fire)</option>
+                    <option value="hemorrhagic">Hemorrhagic CL</option>
+                  </select>
+                </div>
+              </div>
+              <div class="field">
+                <label>CL / dominant laterality</label>
+                <div class="row">
+                  <select id="f-side">
+                    <option value="right">Right</option>
+                    <option value="left">Left</option>
+                    <option value="bilateral">Bilateral</option>
+                    <option value="none">None / indeterminate</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <label class="check-row"><input type="checkbox" id="f-last-scan"> Mark as last scan of this tracking period</label>
+            <div class="field"><label>Scan note (optional)</label><div class="row"><input id="f-note" type="text" maxlength="160" placeholder="—"></div></div>
+          </div>
+
+          <div class="btn-row">
+            <button type="button" class="btn-primary" id="f-save-scan" style="width:auto;">Save scan to series</button>
+            <button type="button" class="btn-ghost" id="f-new-scan">Clear form</button>
+          </div>
+          <p class="note" id="f-save-msg"></p>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Worked examples</div>
+          <p class="subhead">Loads a de-identified teaching series so you can see how wording and labels behave. Does not overwrite saved patient log episodes.</p>
+          <div class="btn-row">
+            <button type="button" class="btn-ghost" id="f-demo-normal">Load ovulatory example</button>
+            <button type="button" class="btn-ghost" id="f-demo-irregular">Load irregular / inconclusive</button>
+            <button type="button" class="btn-danger" id="f-reset-series" style="width:auto;">Clear this series</button>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="card" id="f-series-card"></div>
+        <div class="card" id="f-chart-card"></div>
+        <div class="card" id="f-scan-report-card"></div>
+        <div class="card" id="f-trend-card"></div>
+        <div class="card" id="f-final-card"></div>
+        <div class="card">
+          <div class="card-title">Interpretation rules (ranges, not single cut-offs)</div>
+          <p class="note" style="margin-top:0;">Follicle size at ovulation varies between people and cycles. Size alone does not prove ovulation. Labels below are decision-support categories for structured reporting.</p>
+          <table class="ref rules-table">
+            <thead><tr><th>Label</th><th>Typical ultrasound pattern</th></tr></thead>
+            <tbody>
+              <tr><td>Baseline</td><td>Early cycle (often CD 2–5): cohort usually &lt;10 mm; endometrium thin / menstrual.</td></tr>
+              <tr><td>Developing follicle</td><td>Growing cohort; no clearly leading follicle, or leader still &lt;10 mm.</td></tr>
+              <tr><td>Dominant follicle</td><td>Leading follicle about 10–16 mm and clearly ahead of the cohort.</td></tr>
+              <tr><td>Pre-ovulatory</td><td>Natural cycles: leading mean diameter often ~18–25 mm with a smooth wall; endometrium commonly trilaminar and often ≥7–8 mm (range, not a hard cut-off). Stimulated cycles: trigger size is protocol-dependent, often ~16–22 mm.</td></tr>
+              <tr><td>Peri-ovulatory</td><td>Mature-range follicle plus crenation or internal echoes without definite collapse.</td></tr>
+              <tr><td>Probable ovulation</td><td>Two independent signs (collapse or ≥30% size drop, crenation, new internal echoes, new POD fluid, corpus luteum, trilaminar→secretory shift).</td></tr>
+              <tr><td>Consistent with ovulation</td><td>Three or more signs, preferably including follicular collapse or a typical corpus luteum.</td></tr>
+              <tr><td>Luteal phase</td><td>Corpus luteum ± secretory endometrium after the expected ovulatory window.</td></tr>
+              <tr><td>Possible LUFS / unruptured</td><td>Persistent mature-range follicle past the expected window, without collapse, sometimes with luteinised wall or secretory endometrium.</td></tr>
+              <tr><td>Indeterminate</td><td>Serial imaging insufficient; do not over-call ovulation.</td></tr>
+            </tbody>
+          </table>
+          <p class="note">Growth rate: natural cycles often ~1.0–2.0 mm/day; stimulated cycles may be faster (~1.5–3 mm/day). Stagnation is suggested if growth is &lt;0.5 mm/day over ≥48 hours while still in the follicular phase. A corpus luteum is typically a thick-walled cystic structure with peripheral (“ring of fire”) vascularity; it is not a diagnosis of pregnancy.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ===================== TAB 7: QUIZ ===================== -->
   <section class="panel-view" id="view-quiz">
     <div class="card" id="quiz-area"></div>
   </section>
 
-  <!-- ===================== TAB 8: REFERENCES ===================== -->
-  <section class="panel-view" id="view-references">
-    <div class="card">
-      <div class="card-title">Sources</div>
-      <p style="font-size:12.5px;line-height:1.8;color:var(--paper);">
-        HC = 1.62×(BPD+OFD); shape-corrected BPD = √[(BPD×OFD)/1.265], Doubilet &amp; Greenes, <em>AJR</em> 1984 — applied to dating, not EFW.
-        Cephalic index normal 74–83 (mean 78.3), Hadlock et al., <em>AJR</em> 1981.
-        EFW: Hadlock et al., <em>Radiology</em> 1985. GA from biometry: Hadlock et al. 1984. GA from CRL: Robinson &amp; Fleming (corrected), 1975. GA from MSD: Hellman et al.
-        Redating thresholds and dating-parameter accuracy: ACOG/AIUM/SMFM Committee Opinion 700 (2017); Chervenak et al., <em>AJR</em> 1991 (corrected BPD/HC most accurate 2nd–3rd trimester; AC least reliable for dating).
-        Embryo/fetus terminology boundary (10w6d / 11w0d): Rodgers et al., "A Lexicon for First-Trimester US," <em>Radiology</em> 2024;312(2):e240122 (SRU multisociety consensus, simultaneously published in AJOG).
-        Centile reference: Hadlock 1991 equation with Gardosi/Mikolajczyk et al. SD methodology (<em>Lancet</em> 2011), 24–41 weeks. Macrosomia grading: ACOG Practice Bulletin 216. SGA/LGA: ACOG.
-        UA-PI population mean: INTERGROWTH-21st (Drukker et al., <em>AJOG</em> 2020). MCA-PSV median and the 1.5 MoM anemia threshold: Mari et al., <em>NEJM</em> 2000.
-        Spleen length by age: Rosenberg et al., <em>AJR</em> 1991. Liver, kidney, pancreas, bowel, appendix, bladder, prostate, uterus/endometrium, and abdominal vessel references: Rumack &amp; Levine, <em>Diagnostic Ultrasound</em> (textbook); Kelsey et al., uterine volume, <em>PLOS ONE</em> 2016; Emamian et al., renal size, <em>AJR</em> 1993. Aortic aneurysm definition and repair threshold, IVC/portal/hepatic vessel calibres: as consolidated by RadioGyan's referenced normal-values compendium.
-        Fetal heart rate reference curve and early-pregnancy bradycardia cutoffs: Doubilet &amp; Benson, <em>AJR</em> 1995 (week-banded lower limits); trimester ranges cross-checked against Ibrahim et al., <em>J Perinat Med</em> 2022.
-        HC/AC ratio: <em>AAFP</em> 1998 (Divon). FL/AC ratio: fetalultrasound.com, cross-validated against Hiersch et al., <em>AJOG</em> 2018. BPD/FL ratio for early skeletal dysplasia screening: Wang et al., <em>Taiwan J Obstet Gynecol</em> 2017.
-        Uterine artery PI 95th centiles and notching significance: Ciobanu et al. and Papageorghiou et al., as reviewed in Melchiorre et al., <em>PMC</em> 2022. Ductus venosus PI reference range (21&ndash;40wk): Bahlmann et al., University of Southampton, 2006. Absent/reversed a-wave significance: as reviewed in recent FGR-outcome cohort studies.
-        Ovarian volume reference: Raffone et al., SIGO/SIE consensus review, 2022. Adnexal cyst follow-up bands: Levine et al., Society of Radiologists in Ultrasound consensus statement. IOTA Simple Rules: Timmerman et al., <em>BMJ</em> 2008, feature definitions and decision algorithm cross-verified against Nunes et al., <em>Ultrasound Obstet Gynecol</em> 2014 meta-analysis and Xie et al., <em>J Ovarian Res</em> 2022; inconclusive-result guidance from Ngu et al., <em>Cancers</em> 2022.
-        Anomaly-scan markers: ventriculomegaly and Dandy-Walker/Chiari II patterns per AJOG 2020 practice guidance and Kul et al. (PMC 2024); transcerebellar diameter nomogram, Kotgirwar et al. 2021; NT/nasal bone trisomy correlation, Radiopaedia and Cicero et al.; nuchal fold threshold, ACOG/SMFM; cardiothoracic ratio and chest/AC and FL/foot/FL-AC severe-dysplasia thresholds, Sanders\u2019 Structural Fetal Abnormalities (skeletal dysplasia chapter) and fetalultrasound.com; renal pelvis pyelectasis bands, cohort study cross-referenced via perinatology.com; AFI/SDP oligo- and polyhydramnios cutoffs and ACOG\u2019s DVP preference, StatPearls/ACOG/GLOWM; placental thickness bands, prospective cohort studies cross-referenced via ScienceDirect topic review.
-        Intravesical prostatic protrusion (IPP) grading: Chia et al. and Lee et al. (Korean J Urol 2013), cross-verified against four further independent cohort studies (African Journal of Urology 2021; PMC 2019; PMC 2017) all reporting identical Grade I/II/III cutoffs.
-        PSA density: 0.15 ng/mL/cc benchmark and NCCN very-low-risk cutoff, cross-verified across multiple cohort studies; &lt;0.10 low-probability figure likewise cross-verified.
-      </p>
-    </div>
-    <div class="card">
-      <div class="card-title">Scope Notes</div>
-      <p style="font-size:12.5px;line-height:1.8;color:var(--muted);">
-        "Microsomia" is not standard fetal-medicine terminology — undergrowth is described as SGA (a size descriptor) or FGR (a pathological process); the two are not synonymous, and distinguishing them needs serial growth and Doppler, not a single EFW. UA-PI here is shown against the INTERGROWTH-21st population mean, not a full percentile band, since that requires the SD model — treat departures qualitatively and prioritise AEDF/REDF, which are absolute findings. CPR &lt;1.0 (MCA-PI &lt; UA-PI) is the standard qualitative brain-sparing flag. Kidney paediatric reference is a population mean (for comparison), not an upper-limit cutoff like the other age-graded tables. Hepatic artery is assessed here by resistive index, not diameter, since it has no standard reference calibre the way the portal/splenic/hepatic veins do. Bladder wall thickness depends on distension — always re-check on a distended bladder before calling a thickened wall abnormal. Endometrial thickness is context-dependent (menopausal status, symptoms, cycle phase) — the tool asks which context applies rather than using one fixed number.
+  <footer class="footer">
+    <p>
+      HC = 1.62×(BPD+OFD); shape-corrected BPD = √[(BPD×OFD)/1.265], Doubilet &amp; Greenes, <em>AJR</em> 1984 — applied to dating, not EFW.
+      Cephalic index normal 74–83 (mean 78.3), Hadlock et al., <em>AJR</em> 1981.
+      EFW (Hadlock I–IV): Hadlock et al., <em>Am J Obstet Gynecol</em> 1985;151:333–337 (cm inputs; log10 weight). Related femur-length EFW work: Hadlock et al., <em>Radiology</em> 1984;150:535–540. GA from biometry: Hadlock et al., <em>Radiology</em> 1984. GA from CRL: Robinson &amp; Fleming (corrected), 1975. GA from MSD: common MSD(mm)+30 days approximation used only if CRL is unavailable.
+      Redating thresholds and dating-parameter accuracy: ACOG/AIUM/SMFM Committee Opinion 700 (2017); Chervenak et al., <em>AJR</em> 1991 (corrected BPD/HC most accurate 2nd–3rd trimester; AC least reliable for dating).
+      Centile reference: Hadlock 1991 equation with Gardosi/Mikolajczyk et al. SD methodology (<em>Lancet</em> 2011), 24–41 weeks. Macrosomia grading: ACOG Practice Bulletin 216. SGA/LGA: ACOG.
+      UA-PI centiles: INTERGROWTH-21st LMS equations (Drukker et al., <em>AJOG</em> 2020, Table 6). MCA-PSV median and the 1.5 MoM anemia threshold: Mari et al., <em>NEJM</em> 2000.
+      Spleen length by age: Rosenberg et al., <em>AJR</em> 1991. Liver, kidney, pancreas, bowel, appendix, bladder, prostate, uterus/endometrium, and abdominal vessel references: Rumack &amp; Levine, <em>Diagnostic Ultrasound</em> (textbook); Kelsey et al., uterine volume, <em>PLOS ONE</em> 2016; Emamian et al., renal size, <em>AJR</em> 1993. Aortic aneurysm definition and repair threshold, IVC/portal/hepatic vessel calibres, and PSA density: as consolidated by RadioGyan's referenced normal-values compendium.
+      Fetal heart rate reference curve and early-pregnancy bradycardia cutoffs: Doubilet &amp; Benson, <em>AJR</em> 1995 (week-banded lower limits); trimester ranges cross-checked against Ibrahim et al., <em>J Perinat Med</em> 2022.
+      HC/AC ratio: <em>AAFP</em> 1998 (Divon). FL/AC ratio: fetalultrasound.com, cross-validated against Hiersch et al., <em>AJOG</em> 2018. BPD/FL ratio for early skeletal dysplasia screening: Wang et al., <em>Taiwan J Obstet Gynecol</em> 2017.
+      Uterine artery PI 95th centiles and notching significance: Ciobanu et al. and Papageorghiou et al., as reviewed in Melchiorre et al., <em>PMC</em> 2022. Ductus venosus PI reference range (21&ndash;40wk): Bahlmann et al., University of Southampton, 2006. Absent/reversed a-wave significance: as reviewed in recent FGR-outcome cohort studies.
+      Ovarian volume reference: Raffone et al., SIGO/SIE consensus review, 2022. Adnexal cyst follow-up bands: Levine et al., Society of Radiologists in Ultrasound consensus statement. IOTA Simple Rules: Timmerman et al., <em>BMJ</em> 2008, feature definitions and decision algorithm cross-verified against Nunes et al., <em>Ultrasound Obstet Gynecol</em> 2014 meta-analysis and Xie et al., <em>J Ovarian Res</em> 2022; inconclusive-result guidance from Ngu et al., <em>Cancers</em> 2022.
+      Folliculometry: dominant/pre-ovulatory size bands and ovulation signs as ranges (NICHD ovarian follicle nomenclature workshop 2024; RadioGraphics 2023 ART ovary review; GLOWM transvaginal ultrasonography and infertility). Endometrial thickness is context-dependent; &lt;7 mm is often described as thin in ART literature but is not an absolute infertility cut-off. Corpus luteum recognition: thick crenulated wall ± peripheral vascularity. Anomaly-scan markers: ventriculomegaly and Dandy-Walker/Chiari II patterns per AJOG 2020 practice guidance and Kul et al. (PMC 2024); transcerebellar diameter nomogram, Kotgirwar et al. 2021; NT/nasal bone trisomy correlation, Radiopaedia and Cicero et al.; nuchal fold threshold, ACOG/SMFM; cardiothoracic ratio and chest/AC and FL/foot/FL-AC severe-dysplasia thresholds, Sanders\u2019 Structural Fetal Abnormalities (skeletal dysplasia chapter) and fetalultrasound.com; renal pelvis pyelectasis bands, cohort study cross-referenced via perinatology.com; AFI/SDP oligo- and polyhydramnios cutoffs and ACOG\u2019s DVP preference, StatPearls/ACOG/GLOWM; placental thickness bands, prospective cohort studies cross-referenced via ScienceDirect topic review. Intravesical prostatic protrusion (IPP) grading: Chia et al. and Lee et al. (Korean J Urol 2013), cross-verified against four further independent cohort studies (African Journal of Urology 2021; PMC 2019; PMC 2017) all reporting identical Grade I/II/III cutoffs.
+    </p>
+    <p class="disclaimer">Decision support only — correlate every flag with clinical findings, departmental protocol, and serial trends. Not a substitute for clinical judgement.</p>
+    <details>
+      <summary>Scope notes</summary>
+      <p style="margin-top:8px;">
+        "Microsomia" is not standard fetal-medicine terminology — undergrowth is described as SGA (a size descriptor) or FGR (a pathological process); the two are not synonymous, and distinguishing them needs serial growth and Doppler, not a single EFW. UA-PI is compared with INTERGROWTH-21st 5th/50th/95th centiles (Drukker 2020 LMS model). Still prioritise AEDF/REDF, which are absolute findings. CPR &lt;1.0 (MCA-PI &lt; UA-PI) is the standard qualitative brain-sparing flag. Kidney paediatric reference is a population mean (for comparison), not an upper-limit cutoff like the other age-graded tables. Hepatic artery is assessed here by resistive index, not diameter, since it has no standard reference calibre the way the portal/splenic/hepatic veins do. Bladder wall thickness depends on distension — always re-check on a distended bladder before calling a thickened wall abnormal. Endometrial thickness is context-dependent (menopausal status, symptoms, cycle phase) — the tool asks which context applies rather than using one fixed number.
         Uterine artery PI is shown against a fixed 95th-centile figure, not a MoM adjusted for maternal ethnicity, weight, or height, which is the more precise approach where available. Ovarian cysts get two separate assessments: a quick size/follow-up-band descriptor, and the full IOTA Simple Rules (all 10 features, the published decision algorithm). The ADNEX model is deliberately not implemented — it's a multi-coefficient logistic regression requiring a serum CA-125 value and precise published coefficients across five outcome categories, and a hand-built version of that carries more risk of a subtle, hard-to-catch error than the benefit justifies here. For an inconclusive Simple Rules result, or for a formal percentage risk, use expert ultrasound assessment or the official ADNEX calculator directly. Postmenopausal ovarian volume has no single agreed cutoff in the literature and none is asserted here.
-        <strong>Patient Log</strong> is entirely local to this device (IndexedDB) and off by default — nothing is saved unless the consent checkbox is ticked for that specific episode, and every episode can be deleted individually or all at once. There is no account, no sync, and no network call anywhere in this app; closing the browser tab discards anything not explicitly saved.
-        PSA density: prostatitis can raise PSA disproportionately to volume; on a 5-alpha-reductase inhibitor, doubling measured PSA before this calculation is the common convention, since these drugs suppress PSA production independent of cancer status.
+        Folliculometry series are stored only on this device (localStorage) and can be cleared at any time. <strong>Patient Log</strong> is entirely local to this device (IndexedDB) and off by default — nothing is saved unless the consent checkbox is ticked for that specific episode, and every episode can be deleted individually or all at once. There is no account, no sync, and no network call anywhere in this app; closing the browser tab discards anything not explicitly saved.
       </p>
-    </div>
-    <div class="card">
-      <p class="disclaimer" style="margin:0;">Decision support only — correlate every flag with clinical findings, departmental protocol, and serial trends. Not a substitute for clinical judgement.</p>
-    </div>
-  </section>
+    </details>
+  </footer>
 
 </div>
 
 <div id="report-view">
   <div class="report-header">
-    <div class="report-title">Sonogen &mdash; Scan Summary</div>
+    <div class="report-title">Babsinogen &mdash; Scan Summary</div>
     <div class="report-meta" id="report-meta"></div>
   </div>
-  <h3 style="margin-top:0;">Impression</h3>
-  <div id="report-impression"></div>
   <div id="report-body"></div>
-  <div class="report-footer">Generated by Sonogen (Caliper module), a Babsinogen creation. Decision support only &mdash; correlate with clinical findings and departmental protocol.</div>
+  <div class="report-footer">Generated by Babsinogen (Caliper module). Decision support only &mdash; correlate with clinical findings and departmental protocol.</div>
 </div>
 
 <script>
@@ -521,67 +715,11 @@
     if (!date || isNaN(date.getTime())) return "\u2014";
     return date.toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
   }
-
-  /* Key Dates calculator. Every field here is a fixed day-offset from LMP under the idealised
-     28-day-cycle convention used throughout obstetric dating (GA itself is LMP-based, not
-     conceptional age, precisely to sidestep needing to know the real cycle length). Editing any
-     field back-solves for the implied LMP, then repopulates every other field from it — so this
-     is genuinely bidirectional across all five dates, not just LMP-forward.
-     Conception \u2248 LMP+14d: ovulation is classically described as occurring around day 14 of a
-     28-day cycle, and conception follows within hours of ovulation, hence the same offset.
-     Fertile window \u2248 LMP+9d to LMP+14d: sperm survive up to ~5 days and the oocyte is viable for
-     ~12\u201324h after ovulation, giving the standard 6-day fertile window ending on ovulation day.
-     2nd/3rd trimester start at 14w0d/28w0d, matching trimesterLabel() elsewhere in this app.
-     EDD = LMP+280d (Naegele's rule). All of this assumes a textbook 28-day cycle with ovulation
-     on day 14 \u2014 real cycles vary, so treat conception date and the fertile window as reasonable
-     estimates, not precise individual determinations, especially for anyone with irregular or
-     non-28-day cycles. */
-  var KEY_DATE_OFFSETS = { lmp: 0, conception: 14, tri2: 98, tri3: 196, edd: 280 };
-  var KEY_DATE_IDS = { lmp: "d-lmp", conception: "kd-conception", tri2: "kd-tri2", tri3: "kd-tri3", edd: "kd-edd" };
-
-  function keyDatesFromLMP(lmpDate) {
-    var out = {};
-    Object.keys(KEY_DATE_OFFSETS).forEach(function (k) { out[k] = addDays(lmpDate, KEY_DATE_OFFSETS[k]); });
-    out.fertileStart = addDays(lmpDate, 9);
-    out.fertileEnd = addDays(lmpDate, 14);
-    return out;
-  }
-
-  function renderKeyDatesFrom(lmpDate) {
-    var dates = keyDatesFromLMP(lmpDate);
-    Object.keys(KEY_DATE_IDS).forEach(function (k) {
-      var el = document.getElementById(KEY_DATE_IDS[k]);
-      if (el) el.value = dates[k].toISOString().slice(0, 10);
-    });
-    set("kd-fertile", formatDate(dates.fertileStart) + " \u2013 " + formatDate(dates.fertileEnd));
-    set("kd-explain", "Estimates assume a textbook 28-day cycle with ovulation on day 14 \u2014 conception date and the fertile window shift earlier or later with a shorter or longer cycle, so treat them as reasonable approximations rather than a precise individual determination. Trimester-start and EDD dates follow directly from LMP-based GA convention and don't carry that same cycle-length uncertainty.");
-  }
-
-  function onKeyDateEdited(fieldKey) {
-    var el = document.getElementById(KEY_DATE_IDS[fieldKey]);
-    var entered = parseLocalDate(el ? el.value : null);
-    if (!entered) return;
-    var impliedLMP = addDays(entered, -KEY_DATE_OFFSETS[fieldKey]);
-    renderKeyDatesFrom(impliedLMP);
-  }
-
   function trimesterLabel(days) {
     var w = days / 7;
     if (w < 14) return "1st trimester";
     if (w < 28) return "2nd trimester";
     return "3rd trimester";
-  }
-
-  /* Embryo through 10w6d (day 76) GA; fetus from 11w0d (day 77) GA. This is the explicit
-     consensus terminology cutoff from Rodgers et al., "A Lexicon for First-Trimester US:
-     Society of Radiologists in Ultrasound Consensus Conference Recommendations," Radiology
-     2024;312(2):e240122 (simultaneously published in AJOG), a multisociety panel (SRU, AIUM,
-     ACOG, SMFM, ACR, and others) via modified Delphi consensus (\u226580% agreement). GA is LMP-
-     based per that lexicon's own definition, matching how GA is computed throughout this app.
-     (Earlier version of this app used a 10w0d cutoff from classical embryology texts \u2014
-     corrected after the discrepancy was flagged and the primary source checked directly.) */
-  function embryoOrFetusLabel(days) {
-    return days <= 76 ? "Embryo" : "Fetus";
   }
 
   /* =========================================================================
@@ -597,7 +735,7 @@
   }
 
   /* =========================================================================
-     EFW — Hadlock et al., Radiology 1985
+     EFW — Hadlock et al., AJOG 1985;151:333-337
      ========================================================================= */
   function hadlockEFW(bpd, hc, ac, fl) {
     if (ac == null || fl == null) return null;
@@ -651,19 +789,12 @@
   function gaFromMSDmm(msd) { return msd + 30; }
 
   /* ACOG / AIUM / SMFM Committee Opinion 700 redating thresholds (days) */
-  /* ACOG/AIUM/SMFM Committee Opinion 700 publishes explicit thresholds for CRL (1st trimester)
-     and BPD/HC/AC/FL composite (from 14wk). It does not publish an MSD-specific figure, since MSD
-     is only ever used before CRL becomes measurable (roughly 5-8wk). Rather than returning "no
-     threshold applies" for that entire early window (the bug reported and fixed here), MSD is
-     treated as falling under the tightest, earliest CRL-era band (5 days) — a reasonable, clearly-
-     labelled extension by analogy, not a claim that ACOG itself specifies this figure for MSD. */
-  function acogThresholdDays(gaWeeksFloat, method) {
-    if (method === "crl") {
+  function acogThresholdDays(gaWeeksFloat, isCRL) {
+    if (isCRL) {
       if (gaWeeksFloat <= 8 + 6 / 7) return 5;
       if (gaWeeksFloat <= 13 + 6 / 7) return 7;
       return null;
     }
-    if (method === "msd") return 5;
     if (gaWeeksFloat >= 14 && gaWeeksFloat < 16) return 7;
     if (gaWeeksFloat >= 16 && gaWeeksFloat < 22) return 10;
     if (gaWeeksFloat >= 22 && gaWeeksFloat < 28) return 14;
@@ -738,6 +869,32 @@
      DOPPLER
      ========================================================================= */
   function uaMeanPI(gaWeeks) { return 1.02944 + 77.7456 * Math.pow(gaWeeks, -2) - 0.000004455 * Math.pow(gaWeeks, 3); }
+  /* INTERGROWTH-21st UA-PI LMS (Drukker et al., AJOG 2020, Table 6). GA in exact weeks. */
+  function uaPiParams(gaWeeks) {
+    var ga = gaWeeks;
+    return {
+      lambda: -0.0768617,
+      mu: uaMeanPI(ga),
+      sigma: -0.00645693 + 254.885 * Math.log(ga) * Math.pow(ga, -2) - 715.949 * Math.pow(ga, -2)
+    };
+  }
+  function uaPiZ(y, gaWeeks) {
+    var p = uaPiParams(gaWeeks);
+    if (!p.sigma) return null;
+    return (1 / p.lambda) * (Math.exp((y - p.mu) * p.lambda / p.sigma) - 1);
+  }
+  function uaPiFromZ(z, gaWeeks) {
+    var p = uaPiParams(gaWeeks);
+    var inner = 1 + z * p.lambda;
+    if (inner <= 0) return null;
+    return p.mu + (p.sigma / p.lambda) * Math.log(inner);
+  }
+  function normalCdf(z) {
+    var t = 1 / (1 + 0.2316419 * Math.abs(z));
+    var d = 0.3989422804 * Math.exp(-z * z / 2);
+    var p = d * t * (0.319381530 + t * (-0.356563782 + t * (1.781477937 + t * (-1.821255978 + t * 1.330274429))));
+    return z >= 0 ? 1 - p : p;
+  }
   function mcaPsvMedian(gaWeeks) { return Math.exp(2.31 + 0.046 * gaWeeks); }
 
   /* Uterine artery PI, 95th centile by GA window (Ciobanu/Gomez et al.; MoM adjustment for maternal
@@ -811,16 +968,6 @@
 
   /* Prostate — same ellipsoid convention; enlarged above 30 cc */
   var PROSTATE_UPPER = 30;
-
-  /* PSA density = serum PSA (ng/mL) / prostate volume (cc). 0.15 is the widely-cited benchmark
-     for increased suspicion of clinically significant cancer, and is the cutoff NCCN uses for
-     "very low risk" active-surveillance eligibility; <0.10 is generally cited as very low
-     probability, particularly alongside a negative/low-suspicion MRI. */
-  function classifyPSAD(psad) {
-    if (psad < 0.10) return { label: "Low probability of clinically significant cancer", cls: "ok" };
-    if (psad < 0.15) return { label: "Intermediate \u2014 correlate with PI-RADS/MRI findings if available", cls: "warn" };
-    return { label: "\u22650.15 \u2014 increased suspicion for clinically significant cancer", cls: "danger" };
-  }
 
   /* Intravesical prostatic protrusion (IPP) — grading consistent across Chia et al. 2003, Lee et al.
      (Korean J Urol 2013), and multiple subsequent cohort studies. Only weakly correlated with prostate
@@ -941,20 +1088,6 @@
     return { label: "Not thickened", cls: "ok" };
   }
 
-  /* Previa/low-lying: covers os = previa; edge \u226420mm (not covering) = low-lying; >20mm = normal,
-     no follow-up needed. Modern practice has abandoned "marginal/partial/complete previa"
-     subcategories in favour of this simpler two-category system (UpToDate; AJOG; multiple
-     concordant cohort studies). Short cervix: \u226425mm, the standard preterm-birth-risk threshold. */
-  function classifyPrevia(coversOs, distMm) {
-    if (coversOs) return { label: "Placenta previa \u2014 covers the internal os", cls: "danger" };
-    if (distMm == null) return null;
-    if (distMm <= 20) return { label: "Low-lying placenta (edge \u226420mm from os)", cls: "warn" };
-    return { label: "Normal \u2014 >20mm from os, no follow-up needed for this alone", cls: "ok" };
-  }
-  function classifyCervix(mm) {
-    return mm <= 25 ? { label: "Short cervix (\u226425mm) \u2014 associated with preterm birth risk", cls: "danger" } : { label: "Normal length", cls: "ok" };
-  }
-
   /* =========================================================================
      STATE
      ========================================================================= */
@@ -971,34 +1104,22 @@
      ========================================================================= */
   function renderBiometry() {
     var bpd = toCmB("b-bpd"), ofd = toCmB("b-ofd"), ac = toCmB("b-ac"), fl = toCmB("b-fl");
-    var hcDirect = toCmB("b-hc-direct");
 
     // --- Head shape ---
     var headHtml = '<div class="card-title">Head Shape</div>';
-    var hcCalculated = calcHC(bpd, ofd), ci = calcCI(bpd, ofd), cbpd = calcCorrectedBPD(bpd, ofd);
-    var hc = hcDirect != null ? hcDirect : hcCalculated;
+    var hc = calcHC(bpd, ofd), ci = calcCI(bpd, ofd), cbpd = calcCorrectedBPD(bpd, ofd);
     if (hc != null) {
+      var ciInfo = classifyCI(ci);
       headHtml += '<span class="result-num small">' + hc.toFixed(1) + '</span><span class="result-unit">cm HC</span>';
-      if (hcDirect != null) {
-        headHtml += '<div class="chip">Measured directly</div>';
-        if (hcCalculated != null && Math.abs(hcCalculated - hcDirect) > 0.5) {
-          headHtml += '<div class="note">BPD+OFD would estimate HC at ' + hcCalculated.toFixed(1) + 'cm \u2014 notable difference from the ' + hc.toFixed(1) + 'cm measured value, worth double-checking both measurements.</div>';
-        }
-      }
-      if (ci != null) {
-        var ciInfo = classifyCI(ci);
-        headHtml += '<div class="result-sub">Cephalic index ' + ci.toFixed(1) + '% \u2014 <strong>' + ciInfo.label + '</strong> (' + ciInfo.detail + ')</div>';
-        headHtml += '<div class="badge ' + ciInfo.cls + '">CI ' + ci.toFixed(1) + '% \u00b7 normal 74\u201383</div>';
-        if (ci < 74 || ci > 83) {
-          headHtml += '<div class="note flag">Shape-corrected BPD: ' + cbpd.toFixed(2) + ' cm. Head shape is outside the normal range, so raw BPD will bias BPD-based dating \u2014 the composite dating below automatically uses the corrected value in place of raw BPD.</div>';
-        } else {
-          headHtml += '<div class="note">Shape-corrected BPD: ' + cbpd.toFixed(2) + ' cm (nearly identical to raw BPD here, as expected for a normal head shape).</div>';
-        }
+      headHtml += '<div class="result-sub">Cephalic index ' + ci.toFixed(1) + '% \u2014 <strong>' + ciInfo.label + '</strong> (' + ciInfo.detail + ')</div>';
+      headHtml += '<div class="badge ' + ciInfo.cls + '">CI ' + ci.toFixed(1) + '% \u00b7 normal 74\u201383</div>';
+      if (ci < 74 || ci > 83) {
+        headHtml += '<div class="note flag">Shape-corrected BPD: ' + cbpd.toFixed(2) + ' cm. Head shape is outside the normal range, so raw BPD will bias BPD-based dating \u2014 the composite dating below automatically uses the corrected value in place of raw BPD.</div>';
       } else {
-        headHtml += '<div class="note">Enter BPD and OFD as well to get cephalic index and shape-corrected BPD.</div>';
+        headHtml += '<div class="note">Shape-corrected BPD: ' + cbpd.toFixed(2) + ' cm (nearly identical to raw BPD here, as expected for a normal head shape).</div>';
       }
     } else {
-      headHtml += '<p class="empty">Enter BPD and OFD (for a calculated HC, plus cephalic index and shape-corrected BPD), or enter HC directly if you measured it.</p>';
+      headHtml += '<p class="empty">Enter BPD and OFD to get HC, cephalic index, and shape-corrected BPD.</p>';
     }
     set("head-card", headHtml);
 
@@ -1030,12 +1151,12 @@
       var wd = weeksDaysFromDays(compDays);
       datingHtml += '<span class="result-num">' + wd.w + '</span><span class="result-unit">w</span><span class="result-num">' + wd.d + '</span><span class="result-unit">d</span>';
       datingHtml += '<div class="chip">' + comp.label + '</div>';
-      datingHtml += '<div class="note">' + trimesterLabel(compDays) + ' \u00b7 ' + embryoOrFetusLabel(compDays) + '</div>';
+      datingHtml += '<div class="note">' + trimesterLabel(compDays) + '</div>';
 
       if (perParam.length >= 2) {
         var daysArr = perParam.map(function (p) { return p.w * 7; });
         var spread = Math.max.apply(null, daysArr) - Math.min.apply(null, daysArr);
-        var threshold = acogThresholdDays(comp.weeks, "biometry");
+        var threshold = acogThresholdDays(comp.weeks, false);
         datingHtml += '<table class="ref"><tr><th>Parameter</th><th>GA</th></tr>';
         perParam.forEach(function (p) {
           var pwd = weeksDaysFromDays(p.w * 7);
@@ -1169,9 +1290,9 @@
     var lmpDays = lmp ? Math.round((scan - lmp) / 86400000) : null;
     var lmpEDD = lmp ? addDays(lmp, 280) : null;
 
-    var usDays = null, usLabel = null, usMethod = null;
-    if (crl != null) { usDays = gaFromCRLmm(crl); usLabel = "CRL"; usMethod = "crl"; }
-    else if (msd != null) { usDays = gaFromMSDmm(msd); usLabel = "MSD"; usMethod = "msd"; }
+    var usDays = null, usLabel = null, usIsCRL = false;
+    if (crl != null) { usDays = gaFromCRLmm(crl); usLabel = "CRL"; usIsCRL = true; }
+    else if (msd != null) { usDays = gaFromMSDmm(msd); usLabel = "MSD"; }
 
     // Pull biometry composite if available
     var bpd = toCmB("b-bpd"), ofd = toCmB("b-ofd"), ac = toCmB("b-ac"), fl = toCmB("b-fl");
@@ -1179,7 +1300,7 @@
     var bForGA = (ci != null && (ci < 74 || ci > 83)) ? calcCorrectedBPD(bpd, ofd) : bpd;
     var hc = calcHC(bpd, ofd);
     var comp = gaComposite(bForGA, hc, ac, fl);
-    if (usDays == null && comp) { usDays = comp.weeks * 7; usLabel = "Biometry composite"; usMethod = "biometry"; }
+    if (usDays == null && comp) { usDays = comp.weeks * 7; usLabel = "Biometry composite"; }
 
     var usEDD = usDays != null ? addDays(scan, 280 - usDays) : null;
 
@@ -1195,12 +1316,12 @@
       }
       if (lmpDays != null) {
         var lwd = weeksDaysFromDays(lmpDays);
-        eddHtml += '<div class="compare-row"><span class="compare-label">GA by LMP, today</span><span class="compare-value">' + (lwd ? lwd.w + 'w' + lwd.d + 'd' : '\u2014') + '</span></div>';
+        eddHtml += '<div class="compare-row"><span class="compare-label">GA by LMP, at scan date</span><span class="compare-value">' + (lwd ? lwd.w + 'w' + lwd.d + 'd' : '\u2014') + '</span></div>';
       }
       if (usDays != null) {
         var uwd = weeksDaysFromDays(usDays);
         eddHtml += '<div class="compare-row"><span class="compare-label">GA by ' + usLabel + ', at scan</span><span class="compare-value">' + uwd.w + 'w' + uwd.d + 'd</span></div>';
-        eddHtml += '<div class="note">' + trimesterLabel(usDays) + ' \u00b7 ' + embryoOrFetusLabel(usDays) + '</div>';
+        eddHtml += '<div class="note">' + trimesterLabel(usDays) + '</div>';
       }
     }
     set("edd-card", eddHtml);
@@ -1209,7 +1330,7 @@
     if (lmpEDD && usEDD) {
       var diffDays = Math.round(Math.abs(lmpEDD - usEDD) / 86400000);
       var refGAweeks = usDays / 7;
-      var threshold = acogThresholdDays(refGAweeks, usMethod);
+      var threshold = acogThresholdDays(refGAweeks, usIsCRL);
       redateHtml += '<span class="result-num small">' + diffDays + '</span><span class="result-unit">day' + (diffDays === 1 ? '' : 's') + ' apart</span>';
       if (threshold != null) {
         if (diffDays > threshold) {
@@ -1279,15 +1400,29 @@
 
     if (uapi != null) {
       var meanPI = uaMeanPI(ga);
+      var zPI = uaPiZ(uapi, ga);
+      var pctPI = zPI != null ? normalCdf(zPI) * 100 : null;
+      var p5 = uaPiFromZ(-1.64485, ga);
+      var p50 = uaPiFromZ(0, ga);
+      var p95 = uaPiFromZ(1.64485, ga);
       html += '<div class="compare-row"><span class="compare-label">UA-PI measured</span><span class="compare-value">' + uapi.toFixed(2) + '</span></div>';
-      html += '<div class="compare-row"><span class="compare-label">Population mean at this GA</span><span class="compare-value">' + meanPI.toFixed(2) + '</span></div>';
-      var ratio = uapi / meanPI;
-      if (ratio > 1.3) {
-        html += '<div class="badge warn">Above the population mean \u2014 correlate with AC/EFW trend and consider serial follow-up</div>';
-      } else {
-        html += '<div class="badge ok">Close to the population mean</div>';
+      html += '<div class="compare-row"><span class="compare-label">INTERGROWTH-21st 50th (mean)</span><span class="compare-value">' + meanPI.toFixed(2) + '</span></div>';
+      if (p5 != null && p95 != null) {
+        html += '<div class="compare-row"><span class="compare-label">5th \u2013 95th centile</span><span class="compare-value">' + p5.toFixed(2) + ' \u2013 ' + p95.toFixed(2) + '</span></div>';
       }
-      html += '<div class="note">This is the INTERGROWTH-21st population mean, not a percentile band \u2014 treat as a qualitative comparator, and weight AEDF/REDF and the growth trend more heavily than PI alone.</div>';
+      if (pctPI != null && Number.isFinite(pctPI)) {
+        html += '<div class="compare-row"><span class="compare-label">Approximate centile</span><span class="compare-value">' + Math.max(0.1, Math.min(99.9, pctPI)).toFixed(0) + 'th</span></div>';
+      }
+      if (redf || aedf) {
+        html += '<div class="note">AEDF/REDF override the PI number \u2014 they are absolute qualitative findings.</div>';
+      } else if (p95 != null && uapi > p95) {
+        html += '<div class="badge warn">Above the INTERGROWTH-21st 95th centile \u2014 correlate with AC/EFW trend and consider serial follow-up</div>';
+      } else if (p5 != null && uapi < p5) {
+        html += '<div class="badge ok">Below the 5th centile (low impedance). Isolated low PI is not a concern; AEDF/REDF remain the critical qualitative flags.</div>';
+      } else {
+        html += '<div class="badge ok">Within the INTERGROWTH-21st 5th\u201395th band</div>';
+      }
+      html += '<div class="note">Centiles from Drukker et al., INTERGROWTH-21st (AJOG 2020) LMS equations. Still weigh AEDF/REDF and the growth trend more heavily than PI alone. Applicable roughly 24\u201340 weeks; outside that window treat as approximate.</div>';
     }
 
     if (mcapsv != null) {
@@ -1516,14 +1651,9 @@
         '<div class="hairline">' +
         '<p class="subhead">Intravesical prostatic protrusion (IPP) &mdash; transabdominal, comfortably full bladder (\u2248150\u2013250mL)</p>' +
         '<div class="field"><label>IPP, tip of protrusion to bladder base</label><div class="row"><input id="pr-ipp" type="number" inputMode="decimal" step="0.5" placeholder="\u2014"><span class="suffix">mm</span></div></div>' +
-        '</div>' +
-        '<div class="hairline">' +
-        '<p class="subhead">PSA density &mdash; uses the volume calculated above</p>' +
-        '<div class="field"><label>Serum PSA</label><div class="row"><input id="pr-psa" type="number" inputMode="decimal" step="0.01" placeholder="\u2014"><span class="suffix">ng/mL</span></div></div>' +
-        '<label class="check-row"><input type="checkbox" id="pr-5ari"> On a 5-alpha-reductase inhibitor (finasteride/dutasteride)</label>' +
         '</div>';
       set("organ-inputs", html);
-      wireOrganInputs(["pr-l", "pr-w", "pr-h", "pr-ipp", "pr-psa", "pr-5ari"]);
+      wireOrganInputs(["pr-l", "pr-w", "pr-h", "pr-ipp"]);
     } else if (organSection === "uterus") {
       html = '<div class="card-title">Uterus &amp; Endometrium</div>' +
         '<div class="field"><label>Life stage</label><div class="row"><select id="ut-stage"><option value="prepubertal">Prepubertal</option><option value="nulliparous" selected>Nulliparous (reproductive)</option><option value="multiparous">Multiparous</option><option value="postmenopausal">Postmenopausal</option></select></div></div>' +
@@ -1689,21 +1819,6 @@
         html += '<div class="badge ' + ippc.cls + '">' + ippc.label + '</div>';
         html += '<div class="note">' + ippc.note + '</div>';
         html += '<div class="note">IPP is only weakly correlated with prostate volume \u2014 assess it independently rather than assuming it tracks with the volume finding above; a modestly-sized gland can still have a high-grade protrusion, and vice versa.</div>';
-      }
-      var psa = num(val("pr-psa")), on5ari = checked("pr-5ari");
-      if (psa != null) {
-        html += '<div class="hairline"></div>';
-        if (pvol != null) {
-          var psaForCalc = on5ari ? psa * 2 : psa;
-          var psad = psaForCalc / pvol;
-          html += organRow("PSA density", psad.toFixed(3) + " ng/mL/cc", "<0.10 low \u00b7 0.10\u20130.15 intermediate \u00b7 \u22650.15 increased suspicion");
-          var psadc = classifyPSAD(psad);
-          html += '<div class="badge ' + psadc.cls + '">' + psadc.label + '</div>';
-          if (on5ari) html += '<div class="note">PSA doubled before this calculation, per the common convention for men on a 5-alpha-reductase inhibitor, since these drugs suppress PSA production by roughly half regardless of cancer status.</div>';
-          html += '<div class="note">Prostatitis can raise PSA disproportionately to volume and inflate this number misleadingly \u2014 correlate with symptoms and consider re-checking after treating any infection/inflammation. The 0.15 cutoff is the most widely cited benchmark, but optimal cutoffs have been shown to vary somewhat by population; treat this as one input alongside PI-RADS/MRI findings and clinical context, not a standalone verdict.</div>';
-        } else {
-          html += '<p class="empty">Enter length, width, and height above so volume can be calculated for PSA density.</p>';
-        }
       }
 
     } else if (organSection === "uterus") {
@@ -1920,20 +2035,10 @@
       wireOrganInputs(["an-afmethod", "an-afval"]);
     } else if (anomalySection === "placenta") {
       html = '<div class="card-title">Placenta</div>' +
-        '<div class="field"><label>Location</label><div class="row"><select id="an-plocation"><option value="anterior">Anterior</option><option value="posterior">Posterior</option><option value="fundal">Fundal</option><option value="left-lateral">Left lateral</option><option value="right-lateral">Right lateral</option></select></div></div>' +
         '<div class="field"><label>Trimester</label><div class="row"><select id="an-trim"><option value="second">Second</option><option value="third">Third</option></select></div></div>' +
-        '<div class="field"><label>Thickness (at the centre, perpendicular to the wall)</label><div class="row"><input id="an-placenta" type="number" inputMode="decimal" step="0.1" placeholder="\u2014"><span class="suffix">mm</span></div></div>' +
-        '<div class="hairline">' +
-        '<p class="subhead">Previa / low-lying assessment &mdash; transvaginal, empty bladder</p>' +
-        '<label class="check-row"><input type="checkbox" id="an-covers-os"> Placenta covers the internal os</label>' +
-        '<div class="field"><label>If not covering: edge-to-os distance</label><div class="row"><input id="an-os-dist" type="number" inputMode="decimal" step="0.5" placeholder="\u2014"><span class="suffix">mm</span></div></div>' +
-        '</div>' +
-        '<div class="hairline">' +
-        '<p class="subhead">Cervical length</p>' +
-        '<div class="field"><label>Length</label><div class="row"><input id="an-cx-len" type="number" inputMode="decimal" step="0.1" placeholder="\u2014"><span class="suffix">mm</span></div></div>' +
-        '</div>';
+        '<div class="field"><label>Thickness (at the centre, perpendicular to the wall)</label><div class="row"><input id="an-placenta" type="number" inputMode="decimal" step="0.1" placeholder="\u2014"><span class="suffix">mm</span></div></div>';
       set("anomaly-inputs", html);
-      wireOrganInputs(["an-plocation", "an-trim", "an-placenta", "an-covers-os", "an-os-dist", "an-cx-len"]);
+      wireOrganInputs(["an-trim", "an-placenta"]);
     }
     renderAnomalyResult();
   }
@@ -2090,30 +2195,14 @@
       }
 
     } else if (anomalySection === "placenta") {
-      var trim = val("an-trim"), pThick = num(val("an-placenta")), pLoc = val("an-plocation");
+      var trim = val("an-trim"), pThick = num(val("an-placenta"));
       if (pThick != null) {
         var pc = placentaClassify(pThick, trim);
-        if (pLoc) html += '<div class="chip">' + pLoc.replace("-", " ") + '</div>';
         html += organRow("Thickness", pThick.toFixed(1) + " mm", (trim === "third" ? "\u2264 60 mm" : "\u2264 40 mm") + " (" + trim + " trimester)");
         html += '<div class="badge ' + pc.cls + '">' + pc.label + '</div>';
         if (pc.cls !== "ok") html += '<div class="note">A thick placenta is associated with maternal diabetes, fetal infection, hydrops, and congenital anomalies \u2014 correlate with fetal anatomy and growth. A thin placenta is more associated with FGR/placental insufficiency.</div>';
       } else {
         html += '<p class="empty">Enter placental thickness.</p>';
-      }
-      var coversOs = checked("an-covers-os"), osDist = num(val("an-os-dist"));
-      var previaResult = classifyPrevia(coversOs, osDist);
-      if (previaResult) {
-        html += '<div class="hairline"></div>';
-        html += '<div class="badge ' + previaResult.cls + '">' + previaResult.label + '</div>';
-        if (previaResult.cls !== "ok") html += '<div class="note">Modern practice classifies this as previa (covering) or low-lying (\u226420mm) rather than the older marginal/partial/complete subcategories. Assess transvaginally with an empty bladder \u2014 a full bladder can falsely suggest a lower placental edge than is really there. Low-lying and previa both carry antepartum/intrapartum bleeding and preterm birth risk; most low-lying placentas found in the second trimester resolve by term as the lower segment develops, so re-scan in the third trimester before concluding it persists.</div>';
-      }
-      var cxLen = num(val("an-cx-len"));
-      if (cxLen != null) {
-        html += '<div class="hairline"></div>';
-        var cxc = classifyCervix(cxLen);
-        html += organRow("Cervical length", cxLen.toFixed(1) + " mm", "> 25 mm");
-        html += '<div class="badge ' + cxc.cls + '">' + cxc.label + '</div>';
-        if (cxc.cls !== "ok") html += '<div class="note">Correlate with gestational age (this threshold is most actionable at or before 24 weeks) and consider vaginal progesterone or cerclage per departmental protocol \u2014 this app doesn\u2019t make that management call for you.</div>';
       }
     }
 
@@ -2163,9 +2252,14 @@
     { cat: "IOTA", q: "IOTA Simple Rules classify an adnexal mass as malignant when:", options: ["Any M-feature is present, regardless of B-features", "M-feature(s) present with no B-feature present", "Any B-feature is absent", "The colour score is 2"], correct: 1, explain: "The rule requires M-feature(s) with NO B-feature. If both or neither type is present, the result is inconclusive, not malignant." },
     { cat: "IOTA", q: "In IOTA Simple Rules, a colour score of 1 corresponds to:", options: ["Very strong blood flow (an M-feature)", "No blood flow (a B-feature)", "Moderate flow", "Not used in the algorithm"], correct: 1, explain: "Colour score 1 = no flow = B5. Colour score 4 = very strong flow = M5." },
 
+
+    { cat: "Folliculometry", q: "In a natural cycle, a pre-ovulatory (mature-range) leading follicle is most often in which mean-diameter band?", options: ["6–9 mm", "10–12 mm", "About 18–25 mm (range; individuals vary)", "Always exactly 14 mm"], correct: 2, explain: "Ovulatory follicle size varies. Many natural cycles ovulate from a follicle around 18–25 mm; 16–28 mm is the broader pre-ovulatory antral band in nomenclature reviews. Size alone does not prove ovulation." },
+    { cat: "Folliculometry", q: "Which combination most strongly supports an ultrasound impression of ovulation?", options: ["A 22 mm smooth follicle alone", "Follicular collapse or corpus luteum plus free fluid and/or endometrial secretory shift", "Endometrial thickness of 8 mm alone", "Cycle day 14 on a 28-day assumption"], correct: 1, explain: "Ovulation is inferred from a cluster of signs (collapse, crenation, internal echoes, POD fluid, corpus luteum, endometrial shift), not from calendar day or a single diameter." },
+    { cat: "Folliculometry", q: "How should expected ovulation day be estimated when cycle length is 35 days and luteal length is assumed 14 days?", options: ["Always day 14", "Day 21 (35 − 14)", "Day 28", "Day 7"], correct: 1, explain: "Do not assume a 28-day cycle. Expected ovulation ≈ cycle length − luteal length (luteal phase is relatively stable, often 12–16 days)." },
+    { cat: "Folliculometry", q: "A corpus luteum on ultrasound typically appears as:", options: ["A thin-walled simple cyst without vascularity", "A thick-walled crenulated cystic structure, often with peripheral (“ring of fire”) flow", "A solid ovarian mass with shadowing", "Free fluid without an ovarian lesion"], correct: 1, explain: "The CL is a thick-walled, often crenulated structure with rich peripheral vascularity. It supports ovulation but does not confirm pregnancy." },
     { cat: "EFW", q: "Which Hadlock formula is used when BPD, HC, AC, and FL are all available?", options: ["Hadlock I", "Hadlock II", "Hadlock III", "Hadlock IV"], correct: 3, explain: "Hadlock IV uses all four parameters and is the preferred formula when the full set is available; the app auto-selects it." },
     { cat: "EFW", q: "What is the minimum pair of measurements needed to calculate EFW by any Hadlock formula in this app?", options: ["BPD and HC", "AC and FL", "HC and FL", "BPD alone"], correct: 1, explain: "AC and FL are the baseline for Hadlock I; BPD and/or HC can be added but aren\u2019t required." },
-    { cat: "EFW", q: "The Hadlock EFW formulas were originally published in:", options: ["Radiology, 1985", "NEJM, 2000", "BMJ, 2008", "AJOG, 2018"], correct: 0, explain: "Hadlock et al., Radiology 1985;150:535\u2013540." },
+    { cat: "EFW", q: "The four Hadlock EFW formulas used here (log10 weight from AC/FL +/- BPD +/- HC) were published in:", options: ["AJOG, 1985", "NEJM, 2000", "BMJ, 2008", "Lancet, 2011"], correct: 0, explain: "Hadlock et al., Am J Obstet Gynecol 1985;151:333-337. A related Radiology 1984 paper added femur length to head and abdomen measurements." },
     { cat: "EFW", q: "The growth centile table in this app (24\u201341 weeks) is built on:", options: ["A single-country birth registry", "The Hadlock 1991 equation with Gardosi/Mikolajczyk SD methodology", "WHO child growth standards", "A random sample of 50 fetuses"], correct: 1, explain: "The centile table combines the Hadlock 1991 EFW equation with SD methodology from Gardosi and Mikolajczyk et al. (Lancet 2011)." },
     { cat: "EFW", q: "An EFW below the 3rd percentile is best described as:", options: ["Routine finding, no extra concern", "Severe SGA, consistently linked to worse outcomes", "Diagnostic of trisomy 18", "Only relevant after 40 weeks"], correct: 1, explain: "Below the 3rd percentile carries a stronger, more consistent association with adverse outcome than the broader <10th percentile SGA band." },
     { cat: "EFW", q: "LGA is generally defined as EFW:", options: ["\u226590th percentile for GA", "\u2265 4000g regardless of GA", "\u226550th percentile for GA", "\u226597th percentile only"], correct: 0, explain: "LGA is percentile-based (\u226590th), which is a distinct concept from macrosomia, which is an absolute-weight definition." },
@@ -2206,7 +2300,7 @@
     { cat: "FHR", q: "An FHR of 140bpm at 6 weeks GA, taken alone, is:", options: ["Reassuringly normal for this GA", "Notably fast for this GA, but not necessarily concerning \u2014 correlate clinically", "Diagnostic of twins", "Impossible to occur"], correct: 1, explain: "At 6 weeks the expected range is only about 90\u2013110bpm \u2014 140 is well above that band, so it\u2019s described as outside the expected range rather than reassuring, without over-interpreting a single reading." },
     { cat: "FHR", q: "Sustained FHR >160bpm in the third trimester is termed:", options: ["Bradycardia", "Tachycardia", "Normal variant, no term needed", "Arrhythmia only"], correct: 1, explain: "Standard obstetric terminology: >160bpm sustained = tachycardia, <110bpm sustained = bradycardia, from mid-pregnancy onward." },
 
-    { cat: "Doppler", q: "The INTERGROWTH-21st UA-PI reference used in this app represents:", options: ["A hard 95th-percentile cutoff", "The population mean, shown as a qualitative comparator", "A MoM-adjusted percentile", "A resistance index, not PI"], correct: 1, explain: "The app shows the calculated population mean for comparison \u2014 it deliberately doesn\u2019t claim a full percentile since that needs the SD model, which isn\u2019t implemented." },
+    { cat: "Doppler", q: "The INTERGROWTH-21st UA-PI reference used in this app represents:", options: ["A hard 95th-percentile cutoff only, with no mean", "Gestational-age-specific 5th/50th/95th centiles from the published LMS model", "A MoM-adjusted percentile for maternal weight", "A resistance index, not PI"], correct: 1, explain: "Drukker et al. (AJOG 2020) published \u03bb, \u03bc, and \u03c3 equations so any observed UA-PI can be converted to a z-score and centile. AEDF/REDF still override the number." },
     { cat: "Doppler", q: "Absent end-diastolic flow (AEDF) in the umbilical artery is:", options: ["A normal finding in the third trimester", "A significant finding regardless of the PI value", "Only relevant if PI is also elevated", "Not assessed by this app"], correct: 1, explain: "AEDF/REDF are absolute qualitative flags, treated as significant on their own, not contingent on the PI number." },
     { cat: "Doppler", q: "MCA-PSV median is calculated using which relationship (Mari et al., NEJM 2000)?", options: ["A flat value regardless of GA", "PSV = e^(2.31 + 0.046\u00d7GA)", "PSV = GA \u00d7 2", "PSV = GA\u00b2"], correct: 1, explain: "This exponential model gives a rising median PSV with advancing GA, consistent with known physiology." },
     { cat: "Doppler", q: "MCA-PSV false positives for anemia risk tend to:", options: ["Decrease after 35 weeks", "Increase after about 35 weeks", "Stay constant throughout pregnancy", "Only occur before 20 weeks"], correct: 1, explain: "Per Mari (2005), specificity worsens later in gestation, so a raised MoM late in pregnancy should be weighed alongside the wider clinical picture." },
@@ -2366,7 +2460,646 @@
 
   function initQuiz() { renderQuiz(); }
 
-  function renderAll() { renderBiometry(); renderDating(); renderDoppler(); }
+
+  /* =========================================================================
+     FOLLICULOMETRY — serial tracking + conservative interpretation engine
+     ========================================================================= */
+  var F_STORE = "babsinogen.follicle.v1";
+  var fEditingId = null;
+
+  function fState() {
+    try {
+      var raw = localStorage.getItem(F_STORE);
+      if (raw) return JSON.parse(raw);
+    } catch (e) {}
+    return { cycle: {}, scans: [] };
+  }
+  function fSaveState(s) {
+    try { localStorage.setItem(F_STORE, JSON.stringify(s)); } catch (e) {}
+  }
+  function fMeanDiam(f) {
+    var ds = [num(f.d1), num(f.d2), num(f.d3)].filter(function (x) { return x != null && x > 0; });
+    if (!ds.length) return null;
+    return ds.reduce(function (a, b) { return a + b; }, 0) / ds.length;
+  }
+  function fLeading(scan) {
+    var list = (scan.follicles || []).map(function (fol) {
+      return { follicle: fol, mean: fMeanDiam(fol) };
+    }).filter(function (x) { return x.mean != null; });
+    list.sort(function (a, b) { return b.mean - a.mean; });
+    return list[0] || null;
+  }
+  function fAllMeans(scan) {
+    return (scan.follicles || []).map(fMeanDiam).filter(function (x) { return x != null; }).sort(function (a, b) { return b - a; });
+  }
+  function fDaysBetween(a, b) {
+    var da = parseLocalDate(a), db = parseLocalDate(b);
+    if (!da || !db) return null;
+    return Math.round((db - da) / 86400000);
+  }
+  function fCycleDay(scanDate, cd1, override) {
+    if (override != null && override !== "") return Number(override);
+    var n = fDaysBetween(cd1, scanDate);
+    return n == null ? null : n + 1;
+  }
+  function fExpectedOvDay(cycleLen, luteal) {
+    var cl = num(cycleLen) || 28;
+    var lu = num(luteal) || 14;
+    cl = clamp(cl, 21, 90);
+    lu = clamp(lu, 10, 16);
+    return cl - lu;
+  }
+  function fClassifySize(mean, cycleType) {
+    if (mean == null) return { code: "none", label: "No measurable follicle" };
+    if (mean < 10) return { code: "small", label: "Small antral / cohort (<10 mm)" };
+    if (mean < 16) return { code: "dominant", label: "Dominant range (10–16 mm)" };
+    if (cycleType === "oi" || cycleType === "iui" || cycleType === "art") {
+      if (mean < 22) return { code: "preov", label: "Trigger-ready range in many stimulated protocols (16–22 mm; protocol-dependent)" };
+      if (mean <= 28) return { code: "preov", label: "Large pre-ovulatory / peri-trigger follicle (22–28 mm)" };
+      return { code: "large", label: "Very large follicle (>28 mm) — consider cyst vs persistent follicle vs cystic CL" };
+    }
+    if (mean < 18) return { code: "late_dom", label: "Late dominant / approaching pre-ovulatory (16–18 mm)" };
+    if (mean <= 25) return { code: "preov", label: "Pre-ovulatory / mature range (about 18–25 mm in many natural cycles)" };
+    if (mean <= 30) return { code: "preov_large", label: "Large follicle (25–30 mm) — ovulation size varies; correlate with signs, not size alone" };
+    return { code: "large", label: "Very large follicle (>30 mm) — consider cyst vs LUFS vs cystic corpus luteum" };
+  }
+  function fEndoNote(mm, pattern, cycleType) {
+    if (mm == null && !pattern) return { label: "Endometrium not recorded", cls: "" };
+    var bits = [];
+    if (mm != null) bits.push(mm.toFixed(1) + " mm");
+    var pMap = {
+      menstrual: "menstrual", thin_prolif: "thin proliferative", trilaminar: "trilaminar",
+      periovulatory: "periovulatory", secretory: "secretory/homogeneous", indeterminate: "indeterminate pattern"
+    };
+    if (pattern) bits.push(pMap[pattern] || pattern);
+    var cls = "ok";
+    var extra = "";
+    if (mm != null && mm < 6) { cls = "warn"; extra = " Thin lining — implantation context is multifactorial; <7 mm is often called thin in ART series but is not an absolute barrier."; }
+    else if (mm != null && mm < 7 && (cycleType === "iui" || cycleType === "art" || cycleType === "oi")) { cls = "warn"; extra = " Below 7 mm, often described as thin in ART literature; interpret with pattern and protocol."; }
+    if (pattern === "trilaminar" && mm != null && mm >= 7) extra += " Trilaminar lining in this thickness range is commonly described as peri-ovulatory and favourable, not diagnostic of ovulation.";
+    if (pattern === "secretory") extra += " Homogeneous/secretory change supports a post-ovulatory hormonal milieu but is not proof of follicular rupture.";
+    return { label: bits.join(", "), extra: extra, cls: cls };
+  }
+  function fOvulationSigns(prev, curr) {
+    var signs = [];
+    var lead = fLeading(curr);
+    var prevLead = prev ? fLeading(prev) : null;
+    if (curr.wall === "collapsed" || curr.cl === "typical" || curr.cl === "hemorrhagic") {
+      /* scored below individually */
+    }
+    if (curr.wall === "collapsed") signs.push({ id: "collapse", text: "follicular collapse / follicle no longer seen as a dominant cystic structure" });
+    if (prevLead && lead && prevLead.mean >= 16 && lead.mean <= prevLead.mean * 0.7) {
+      signs.push({ id: "shrink", text: "≥30% reduction in mean diameter of the leading follicle compared with the prior scan" });
+    }
+    if (curr.wall === "crenated" && prev && prev.wall === "smooth") {
+      signs.push({ id: "crenation", text: "new crenation / wall irregularity of a previously smooth follicle" });
+    } else if (curr.wall === "crenated" && lead && lead.mean >= 16) {
+      signs.push({ id: "crenation", text: "crenated follicle wall in a mature-range follicle" });
+    }
+    if (curr.echoes !== "none" && (!prev || prev.echoes === "none")) {
+      signs.push({ id: "echoes", text: "new internal echoes in a previously anechoic follicle" });
+    }
+    if (curr.fluid !== "none" && (!prev || prev.fluid === "none")) {
+      signs.push({ id: "fluid", text: "new pelvic free fluid (" + curr.fluid + ")" });
+    } else if (curr.fluid === "small" || curr.fluid === "moderate" || curr.fluid === "large") {
+      if (prev && prev.fluid !== "none") signs.push({ id: "fluid", text: "pelvic free fluid (" + curr.fluid + ")" });
+    }
+    if (curr.cl === "typical" || curr.cl === "hemorrhagic") {
+      signs.push({ id: "cl", text: curr.cl === "hemorrhagic" ? "hemorrhagic corpus luteum" : "typical corpus luteum (thick wall ± peripheral vascularity)" });
+    } else if (curr.cl === "suspected") {
+      signs.push({ id: "cl_sus", text: "suspected corpus luteum (not definitive)" });
+    }
+    if (prev && (prev.emPattern === "trilaminar" || prev.emPattern === "periovulatory") && curr.emPattern === "secretory") {
+      signs.push({ id: "endo_shift", text: "endometrial shift from trilaminar/periovulatory to secretory" });
+    }
+    var ids = {};
+    var uniq = [];
+    signs.forEach(function (s) { if (!ids[s.id]) { ids[s.id] = 1; uniq.push(s); } });
+    var score = uniq.filter(function (s) { return s.id !== "cl_sus"; }).length;
+    if (uniq.some(function (s) { return s.id === "cl_sus"; }) && score === 0) score = 1;
+    return { signs: uniq, score: score };
+  }
+  function fPerScanLabel(ctx) {
+    var scan = ctx.scan, prev = ctx.prev, cycle = ctx.cycle, ov = ctx.ov;
+    var lead = fLeading(scan);
+    var mean = lead ? lead.mean : null;
+    var cd = scan.cycleDay;
+    var type = cycle.type || "natural";
+    var exp = fExpectedOvDay(cycle.cycleLen, cycle.luteal);
+    var size = fClassifySize(mean, type);
+
+    if (ov.score >= 3 && (scan.wall === "collapsed" || scan.cl === "typical" || scan.cl === "hemorrhagic" || ov.signs.some(function (s) { return s.id === "shrink"; }))) {
+      return { code: "consistent_ovulation", label: "Consistent with ovulation", cls: "ok" };
+    }
+    if (ov.score >= 2) return { code: "probable_ovulation", label: "Probable ovulation", cls: "ok" };
+    if (scan.cl === "typical" || scan.cl === "hemorrhagic") return { code: "luteal", label: "Luteal phase findings", cls: "ok" };
+    if (scan.wall === "crenated" && mean != null && mean >= 16) return { code: "periovulatory", label: "Peri-ovulatory follicle", cls: "warn" };
+
+    var persistent = false;
+    if (prev && mean != null) {
+      var pLead = fLeading(prev);
+      if (pLead && pLead.mean >= 16 && Math.abs(mean - pLead.mean) < 1.0) {
+        var dt = fDaysBetween(prev.date, scan.date);
+        if (dt != null && dt >= 2 && cd != null && cd > exp + 1 && type !== "irregular") persistent = true;
+      }
+    }
+    if (persistent && (scan.emPattern === "secretory" || scan.wall === "crenated")) {
+      return { code: "lufs", label: "Possible unruptured / luteinised unruptured follicle (LUFS)", cls: "warn" };
+    }
+
+    if (mean == null || mean < 10) {
+      if (cd != null && cd <= 5) return { code: "baseline", label: "Baseline / early follicular", cls: "ok" };
+      if (cd != null && type !== "irregular" && cd >= exp) return { code: "anovulatory", label: "No dominant follicle in the expected late-follicular window", cls: "warn" };
+      return { code: "developing", label: "Developing cohort", cls: "ok" };
+    }
+    if (mean < 16) return { code: "dominant", label: "Dominant follicle", cls: "ok" };
+    if (size.code === "preov" || size.code === "late_dom" || size.code === "preov_large") {
+      return { code: "preovulatory", label: "Pre-ovulatory follicle", cls: "ok" };
+    }
+    return { code: "indeterminate", label: "Indeterminate", cls: "warn" };
+  }
+  function fGrowthRate(prev, curr) {
+    var a = prev ? fLeading(prev) : null;
+    var b = fLeading(curr);
+    if (!a || !b) return null;
+    var dt = fDaysBetween(prev.date, curr.date);
+    if (dt == null || dt <= 0) return null;
+    return { mmPerDay: (b.mean - a.mean) / dt, days: dt, from: a.mean, to: b.mean };
+  }
+  function fScanNarrative(cycle, scans, idx) {
+    var scan = scans[idx];
+    var prev = idx > 0 ? scans[idx - 1] : null;
+    var ov = fOvulationSigns(prev, scan);
+    var lead = fLeading(scan);
+    var size = fClassifySize(lead ? lead.mean : null, cycle.type || "natural");
+    var lab = fPerScanLabel({ scan: scan, prev: prev, cycle: cycle, ov: ov });
+    var endo = fEndoNote(num(scan.emMm), scan.emPattern, cycle.type);
+    var gr = prev ? fGrowthRate(prev, scan) : null;
+    var cd = scan.cycleDay != null ? "Cycle day " + scan.cycleDay : "Undated cycle day";
+    var lines = [];
+    lines.push(cd + " (" + formatDate(parseLocalDate(scan.date)) + "). " + (scan.approach === "ta" ? "Transabdominal" : scan.approach === "both" ? "Combined TA/TV" : "Transvaginal") + " assessment.");
+    if (lead) {
+      var side = (lead.follicle.ovary || scan.side || "unspecified");
+      lines.push("Leading follicle: mean diameter " + lead.mean.toFixed(1) + " mm (" + side + " ovary). " + size.label + ".");
+    } else {
+      lines.push("No measurable dominant follicle recorded on this visit.");
+    }
+    var others = fAllMeans(scan).slice(1).filter(function (m) { return m >= 10; });
+    if (others.length) lines.push("Additional follicles ≥10 mm: " + others.map(function (m) { return m.toFixed(1) + " mm"; }).join(", ") + ".");
+    if (gr) {
+      var gtxt = (gr.mmPerDay >= 0 ? "+" : "") + gr.mmPerDay.toFixed(1) + " mm/day over " + gr.days + " day" + (gr.days === 1 ? "" : "s");
+      if (gr.mmPerDay < 0.5 && gr.mmPerDay > -0.3 && gr.days >= 2 && lab.code !== "consistent_ovulation" && lab.code !== "probable_ovulation") {
+        lines.push("Interval growth " + gtxt + " — slow/stagnant relative to the usual 1–2 mm/day follicular-phase range.");
+      } else {
+        lines.push("Interval growth " + gtxt + " (usual natural-cycle range about 1.0–2.0 mm/day; stimulated cycles may be faster).");
+      }
+    }
+    lines.push("Endometrium: " + endo.label + "." + (endo.extra || ""));
+    if (ov.signs.length) {
+      lines.push("Ovulation-related findings: " + ov.signs.map(function (s) { return s.text; }).join("; ") + ".");
+    }
+    if (scan.note) lines.push("Note: " + scan.note);
+    lines.push("Impression: " + lab.label + ".");
+    return { text: lines.join(" "), label: lab, ov: ov, lead: lead, size: size, endo: endo, growth: gr };
+  }
+  function fTrendNarrative(cycle, scans) {
+    if (!scans.length) return "No scans in this series yet.";
+    if (scans.length === 1) return "Single visit only. Folliculometry is a trend-based process — a second scan is required before ovulation can be inferred with any confidence.";
+    var parts = [];
+    var leads = scans.map(function (s, i) {
+      var L = fLeading(s);
+      return { i: i, scan: s, mean: L ? L.mean : null, cd: s.cycleDay };
+    });
+    var max = leads.reduce(function (acc, x) { return (x.mean != null && (acc == null || x.mean > acc.mean)) ? x : acc; }, null);
+    if (max && max.mean != null) {
+      parts.push("A leading follicle reached " + max.mean.toFixed(1) + " mm" + (max.cd != null ? " on cycle day " + max.cd : "") + ".");
+    }
+    var last = scans[scans.length - 1];
+    var prev = scans[scans.length - 2];
+    var ov = fOvulationSigns(prev, last);
+    var rates = [];
+    for (var i = 1; i < scans.length; i++) {
+      var g = fGrowthRate(scans[i - 1], scans[i]);
+      if (g && g.mmPerDay > -0.2) rates.push(g.mmPerDay);
+    }
+    if (rates.length) {
+      var avg = rates.reduce(function (a, b) { return a + b; }, 0) / rates.length;
+      parts.push("Mean interval growth while the follicle was enlarging: " + avg.toFixed(1) + " mm/day.");
+    }
+    var type = cycle.type || "natural";
+    var exp = fExpectedOvDay(cycle.cycleLen, cycle.luteal);
+    if (type === "irregular") {
+      parts.push("Cycle length is irregular — calendar-day predictions are not used as proof of ovulation or anovulation.");
+    } else {
+      parts.push("For a " + (num(cycle.cycleLen) || 28) + "-day cycle with a " + (num(cycle.luteal) || 14) + "-day luteal assumption, expected ovulation is around day " + exp + " (range, not a fixed 14-day follicular phase).");
+    }
+    if (ov.score >= 2) parts.push("The latest interval shows " + ov.score + " ovulation-related sign" + (ov.score === 1 ? "" : "s") + ".");
+    else parts.push("Serial change has not yet produced a confident ovulation pattern.");
+    var nLarge = 0;
+    scans.forEach(function (s) {
+      fAllMeans(s).forEach(function (m) { if (m >= 12) nLarge++; });
+    });
+    if ((type === "art" || type === "oi") && fAllMeans(last).filter(function (m) { return m >= 12; }).length >= 15) {
+      parts.push("Multiple large follicles are present — correlate with the stimulation protocol and OHSS-risk assessment; this tool does not calculate OHSS risk.");
+    }
+    return parts.join(" ");
+  }
+  function fFinalNarrative(cycle, scans) {
+    if (!scans.length) {
+      return { cls: "warn", title: "No tracking data", text: "Serial imaging is insufficient for interpretation." };
+    }
+    var last = scans[scans.length - 1];
+    var prev = scans.length > 1 ? scans[scans.length - 2] : null;
+    var ov = fOvulationSigns(prev, last);
+    var lab = fPerScanLabel({ scan: last, prev: prev, cycle: cycle, ov: ov });
+    var endo = fEndoNote(num(last.emMm), last.emPattern, cycle.type);
+    var lead = fLeading(last);
+    var type = cycle.type || "natural";
+    var exp = fExpectedOvDay(cycle.cycleLen, cycle.luteal);
+    var lastIsMarked = !!last.lastScan;
+    var enough = scans.length >= 2;
+    var text = "";
+    var cls = "ok";
+
+    if (!enough) {
+      cls = "warn";
+      text = "Serial imaging is insufficient for definitive ovulation confirmation; a repeat scan is recommended. A single visit can describe follicle size and endometrial appearance but cannot establish rupture.";
+    } else if (lab.code === "consistent_ovulation") {
+      text = "Findings suggest recent ovulation with";
+      var bits = [];
+      if (ov.signs.some(function (s) { return s.id === "cl" || s.id === "cl_sus"; })) bits.push("corpus luteum formation");
+      if (ov.signs.some(function (s) { return s.id === "fluid"; })) bits.push("pelvic free fluid");
+      if (ov.signs.some(function (s) { return s.id === "collapse" || s.id === "shrink"; })) bits.push("follicular collapse");
+      if (last.emPattern === "secretory") bits.push("secretory endometrial transformation");
+      text = "Findings suggest recent ovulation" + (bits.length ? " with " + bits.join(", ") : "") + ". This is an ultrasound impression, not laboratory confirmation of oocyte release.";
+    } else if (lab.code === "probable_ovulation") {
+      text = "Findings are consistent with probable ovulation based on " + ov.score + " supporting signs. Residual uncertainty remains; correlate with LH kit, progesterone, or a further luteal-phase scan if management depends on confirmation.";
+      cls = "ok";
+    } else if (lab.code === "preovulatory" || lab.code === "periovulatory") {
+      text = "Findings are consistent with a mature dominant follicle";
+      if (last.emPattern === "trilaminar" || last.emPattern === "periovulatory") text += ", peri-ovulatory endometrium";
+      text += ", and likely impending ovulation.";
+      if (type === "oi" || type === "iui" || type === "art") {
+        text += " In stimulated/IUI/ART cycles, trigger timing follows the treating protocol (often when the lead follicle is in the mid-teens to low-20 mm range) rather than a single universal diameter.";
+      }
+    } else if (lab.code === "lufs") {
+      cls = "warn";
+      text = "A mature-range follicle persisted without demonstrated collapse. This may represent a luteinised unruptured follicle or delayed ovulation. Repeat imaging and/or luteal progesterone may clarify; do not assume oocyte release.";
+    } else if (lab.code === "anovulatory") {
+      cls = "warn";
+      text = "No dominant follicle was demonstrated in the expected late-follicular window of this cycle length. This pattern is compatible with anovulation on imaging but is not a complete endocrine diagnosis.";
+    } else if (type === "irregular" && lab.code !== "consistent_ovulation") {
+      cls = "warn";
+      text = "In this irregular cycle, serial imaging remains inconclusive for ovulation. Calendar-day rules are unreliable when cycle length varies. Continue tracking or add biochemical correlation (LH, mid-luteal progesterone) rather than forcing an ovulatory call.";
+    } else {
+      cls = "warn";
+      text = "Serial imaging is insufficient for definitive ovulation confirmation; repeat scan recommended. Current findings: " + lab.label.toLowerCase() + (lead ? " (lead follicle " + lead.mean.toFixed(1) + " mm)" : "") + "; endometrium " + endo.label + ".";
+    }
+
+    if (!lastIsMarked && enough && (lab.code === "preovulatory" || lab.code === "periovulatory" || lab.code === "dominant")) {
+      text += " If this is not the final visit, a scan 1–2 days after the expected ovulatory window (or 36–48 hours after trigger) is the most useful way to document collapse or corpus luteum.";
+    }
+
+    text += " Decision support only — correlate with clinical findings, endocrine tests, and departmental protocol.";
+    return { cls: cls, title: lastIsMarked || lab.code === "consistent_ovulation" || lab.code === "probable_ovulation" || scans.length >= 3 ? "End-of-tracking interpretation" : "Interim interpretation", text: text, label: lab };
+  }
+
+  function fEsc(s) {
+    return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+      if (c === "&") return "&" + "amp;";
+      if (c === "<") return "&" + "lt;";
+      if (c === ">") return "&" + "gt;";
+      if (c === '"') return "&" + "quot;";
+      return "&" + "#39;";
+    });
+  }
+
+  function fDefaultFollicle() { return { ovary: "right", d1: "", d2: "", d3: "" }; }
+
+  function fReadFolliclesFromForm() {
+    var rows = document.querySelectorAll("#f-foll-body tr");
+    var out = [];
+    rows.forEach(function (tr) {
+      var ovary = tr.querySelector(".ff-ov").value;
+      var d1 = tr.querySelector(".ff-d1").value;
+      var d2 = tr.querySelector(".ff-d2").value;
+      var d3 = tr.querySelector(".ff-d3").value;
+      if (d1 || d2 || d3) out.push({ ovary: ovary, d1: d1, d2: d2, d3: d3 });
+    });
+    return out;
+  }
+  function fRenderFollicleRows(follicles) {
+    var rows = (follicles && follicles.length) ? follicles : [fDefaultFollicle(), fDefaultFollicle()];
+    set("f-foll-body", rows.map(function (f, i) {
+      return '<tr>' +
+        '<td><select class="ff-ov"><option value="right"' + (f.ovary === "right" ? " selected" : "") + '>Right</option><option value="left"' + (f.ovary === "left" ? " selected" : "") + '>Left</option></select></td>' +
+        '<td><input class="ff-d1" type="number" inputMode="decimal" step="0.1" value="' + fEsc(f.d1) + '" placeholder="mm"></td>' +
+        '<td><input class="ff-d2" type="number" inputMode="decimal" step="0.1" value="' + fEsc(f.d2) + '" placeholder="mm"></td>' +
+        '<td><input class="ff-d3" type="number" inputMode="decimal" step="0.1" value="' + fEsc(f.d3) + '" placeholder="opt"></td>' +
+        '<td><button type="button" class="btn-ghost ff-del" data-i="' + i + '">✕</button></td>' +
+        '</tr>';
+    }).join(""));
+    document.querySelectorAll(".ff-del").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var fol = fReadFolliclesFromForm();
+        fol.splice(Number(b.getAttribute("data-i")), 1);
+        fRenderFollicleRows(fol);
+      });
+    });
+  }
+  function fClearForm() {
+    fEditingId = null;
+    document.getElementById("f-scan-date").value = new Date().toISOString().slice(0, 10);
+    document.getElementById("f-cd").value = "";
+    document.getElementById("f-em-mm").value = "";
+    document.getElementById("f-em-pattern").value = "";
+    document.getElementById("f-wall").value = "smooth";
+    document.getElementById("f-echoes").value = "none";
+    document.getElementById("f-fluid").value = "none";
+    document.getElementById("f-cl").value = "none";
+    document.getElementById("f-side").value = "right";
+    document.getElementById("f-last-scan").checked = false;
+    document.getElementById("f-note").value = "";
+    fRenderFollicleRows([fDefaultFollicle(), fDefaultFollicle()]);
+    fAutoCycleDay();
+    set("f-save-msg", "");
+  }
+  function fAutoCycleDay() {
+    var st = fState();
+    var cd1 = val("f-cd1") || (st.cycle && st.cycle.cd1);
+    var sd = val("f-scan-date");
+    if (cd1 && sd) {
+      var cd = fCycleDay(sd, cd1, null);
+      if (cd != null && document.activeElement !== document.getElementById("f-cd")) {
+        if (!val("f-cd") || !fEditingId) document.getElementById("f-cd").value = String(cd);
+      }
+    }
+  }
+  function fReadCycle() {
+    return {
+      type: val("f-cycle-type") || "natural",
+      cd1: val("f-cd1"),
+      cycleLen: val("f-cycle-len") || "28",
+      luteal: val("f-luteal") || "14",
+      triggerDate: val("f-trigger-date"),
+      triggerType: val("f-trigger-type") || "none"
+    };
+  }
+  function fWriteCycle(c) {
+    if (!c) return;
+    document.getElementById("f-cycle-type").value = c.type || "natural";
+    document.getElementById("f-cd1").value = c.cd1 || "";
+    document.getElementById("f-cycle-len").value = c.cycleLen || "28";
+    document.getElementById("f-luteal").value = c.luteal || "14";
+    document.getElementById("f-trigger-date").value = c.triggerDate || "";
+    document.getElementById("f-trigger-type").value = c.triggerType || "none";
+  }
+  function fSortedScans(scans) {
+    return (scans || []).slice().sort(function (a, b) {
+      return (a.date || "").localeCompare(b.date || "") || (a.cycleDay || 0) - (b.cycleDay || 0);
+    });
+  }
+  function fChartSvg(scans) {
+    var pts = scans.map(function (s) {
+      var L = fLeading(s);
+      return { cd: s.cycleDay, mean: L ? L.mean : null, date: s.date };
+    }).filter(function (p) { return p.mean != null && p.cd != null; });
+    if (pts.length < 1) return '<p class="empty">Growth chart appears after a dated leading follicle is recorded.</p>';
+    var minCd = Math.min.apply(null, pts.map(function (p) { return p.cd; })) - 1;
+    var maxCd = Math.max.apply(null, pts.map(function (p) { return p.cd; })) + 1;
+    var maxMm = Math.max(24, Math.max.apply(null, pts.map(function (p) { return p.mean; })) + 4);
+    var W = 520, H = 180, mL = 36, mR = 10, mT = 12, mB = 28;
+    var plotW = W - mL - mR, plotH = H - mT - mB;
+    function x(cd) { return mL + ((cd - minCd) / (maxCd - minCd || 1)) * plotW; }
+    function y(mm) { return mT + plotH - (mm / maxMm) * plotH; }
+    var poly = pts.map(function (p) { return x(p.cd).toFixed(1) + "," + y(p.mean).toFixed(1); }).join(" ");
+    var dots = pts.map(function (p) {
+      return '<circle cx="' + x(p.cd).toFixed(1) + '" cy="' + y(p.mean).toFixed(1) + '" r="3.5" fill="#5EEAD4"/>';
+    }).join("");
+    var grid = [10, 16, 18, 25].filter(function (g) { return g < maxMm; }).map(function (g) {
+      return '<line x1="' + mL + '" y1="' + y(g) + '" x2="' + (W - mR) + '" y2="' + y(g) + '" stroke="#262F39"/><text x="4" y="' + (y(g) + 3) + '" fill="#8792A0" font-size="10" font-family="ui-monospace,monospace">' + g + '</text>';
+    }).join("");
+    return '<svg viewBox="0 0 ' + W + ' ' + H + '" width="100%" role="img" aria-label="Leading follicle growth">' +
+      '<rect x="0" y="0" width="' + W + '" height="' + H + '" fill="#171D24"/>' + grid +
+      '<polyline fill="none" stroke="#5EEAD4" stroke-width="1.6" points="' + poly + '"/>' + dots +
+      '<text x="' + (W / 2) + '" y="' + (H - 6) + '" text-anchor="middle" fill="#8792A0" font-size="10" font-family="ui-monospace,monospace">Cycle day</text>' +
+      '</svg><div class="chart-legend"><span><span class="sw" style="background:#5EEAD4"></span>Leading follicle mean diameter (mm)</span></div>';
+  }
+  function renderFolliculometry() {
+    var st = fState();
+    st.cycle = fReadCycle();
+    var scans = fSortedScans(st.scans);
+    var cycle = st.cycle;
+    var exp = fExpectedOvDay(cycle.cycleLen, cycle.luteal);
+
+    var seriesHtml = '<div class="card-title">Serial scans <span class="chip">' + scans.length + '</span></div>';
+    if (cycle.cd1) {
+      seriesHtml += '<p class="note" style="margin-top:0;">Day 1 ' + formatDate(parseLocalDate(cycle.cd1)) +
+        ' · ' + (cycle.type || "natural") + ' cycle · expected ovulation around day ' + exp +
+        ' (cycle ' + (cycle.cycleLen || 28) + ' − luteal ' + (cycle.luteal || 14) + ')</p>';
+    }
+    if (!scans.length) {
+      seriesHtml += '<p class="empty">No scans saved in this tracking series yet. Enter a scan on the left and save it.</p>';
+    } else {
+      seriesHtml += '<div class="timeline">';
+      scans.forEach(function (s, i) {
+        var n = fScanNarrative(cycle, scans, i);
+        var leadTxt = n.lead ? n.lead.mean.toFixed(1) + " mm" : "—";
+        seriesHtml += '<div class="tl-row"><div class="tl-day">CD ' + (s.cycleDay != null ? s.cycleDay : "—") +
+          '</div><div class="tl-body"><strong>' + fEsc(n.label.label) + '</strong> · lead ' + leadTxt +
+          '<div class="note" style="margin-top:4px;">' + fEsc(formatDate(parseLocalDate(s.date))) +
+          ' · EM ' + fEsc(n.endo.label) +
+          '</div><div class="log-entry-actions"><button data-fedit="' + fEsc(s.id) + '">Edit</button>' +
+          '<button class="danger" data-fdel="' + fEsc(s.id) + '">Delete</button></div></div></div>';
+      });
+      seriesHtml += '</div>';
+    }
+    set("f-series-card", seriesHtml);
+
+    set("f-chart-card", '<div class="card-title">Follicle growth trend</div>' + fChartSvg(scans));
+
+    if (scans.length) {
+      var lastN = fScanNarrative(cycle, scans, scans.length - 1);
+      var sr = '<div class="card-title">Latest scan report</div><div class="impression ' + (lastN.label.cls === "warn" ? "warn" : "") + '"><h3>' + fEsc(lastN.label.label) + '</h3><p>' + fEsc(lastN.text) + '</p></div>';
+      if (lastN.ov.signs.length) {
+        sr += '<p class="note">Ovulation score: ' + lastN.ov.score + ' independent sign' + (lastN.ov.score === 1 ? "" : "s") + ' (2 = probable; 3+ with collapse or corpus luteum = consistent with ovulation). Ultrasound cannot prove oocyte release.</p>';
+      }
+      set("f-scan-report-card", sr);
+      set("f-trend-card", '<div class="card-title">Trend interpretation</div><p class="note" style="margin-top:0;color:var(--paper);font-size:13.5px;line-height:1.55;">' + fEsc(fTrendNarrative(cycle, scans)) + '</p>');
+      var fin = fFinalNarrative(cycle, scans);
+      set("f-final-card", '<div class="card-title">' + fEsc(fin.title) + '</div><div class="impression ' + (fin.cls === "warn" ? "warn" : "") + '"><h3>Structured impression</h3><p>' + fEsc(fin.text) + '</p></div>');
+    } else {
+      set("f-scan-report-card", '<div class="card-title">Latest scan report</div><p class="empty">Save a scan to generate a structured report.</p>');
+      set("f-trend-card", '<div class="card-title">Trend interpretation</div><p class="empty">Needs at least two visits.</p>');
+      set("f-final-card", '<div class="card-title">End-of-tracking interpretation</div><p class="empty">Complete the series (or tick “last scan”) for an end-of-period impression.</p>');
+    }
+
+    document.querySelectorAll("[data-fedit]").forEach(function (b) {
+      b.addEventListener("click", function () { fLoadScan(b.getAttribute("data-fedit")); });
+    });
+    document.querySelectorAll("[data-fdel]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        if (!confirm("Delete this scan from the series?")) return;
+        var st2 = fState();
+        st2.scans = (st2.scans || []).filter(function (s) { return s.id !== b.getAttribute("data-fdel"); });
+        fSaveState(st2);
+        renderFolliculometry();
+      });
+    });
+  }
+  function fLoadScan(id) {
+    var st = fState();
+    var s = (st.scans || []).filter(function (x) { return x.id === id; })[0];
+    if (!s) return;
+    fEditingId = id;
+    document.getElementById("f-scan-date").value = s.date || "";
+    document.getElementById("f-cd").value = s.cycleDay != null ? s.cycleDay : "";
+    document.getElementById("f-approach").value = s.approach || "tv";
+    document.getElementById("f-em-mm").value = s.emMm != null ? s.emMm : "";
+    document.getElementById("f-em-pattern").value = s.emPattern || "";
+    document.getElementById("f-wall").value = s.wall || "smooth";
+    document.getElementById("f-echoes").value = s.echoes || "none";
+    document.getElementById("f-fluid").value = s.fluid || "none";
+    document.getElementById("f-cl").value = s.cl || "none";
+    document.getElementById("f-side").value = s.side || "right";
+    document.getElementById("f-last-scan").checked = !!s.lastScan;
+    document.getElementById("f-note").value = s.note || "";
+    fRenderFollicleRows(s.follicles && s.follicles.length ? s.follicles : [fDefaultFollicle()]);
+    set("f-save-msg", "Editing scan — save to update.");
+  }
+  function fCollectScan() {
+    var cycle = fReadCycle();
+    var date = val("f-scan-date");
+    if (!date) return null;
+    var cdOverride = val("f-cd");
+    var cd = fCycleDay(date, cycle.cd1, cdOverride);
+    return {
+      id: fEditingId || ("s" + Date.now()),
+      date: date,
+      cycleDay: cd,
+      approach: val("f-approach") || "tv",
+      follicles: fReadFolliclesFromForm(),
+      emMm: val("f-em-mm"),
+      emPattern: val("f-em-pattern"),
+      wall: val("f-wall") || "smooth",
+      echoes: val("f-echoes") || "none",
+      fluid: val("f-fluid") || "none",
+      cl: val("f-cl") || "none",
+      side: val("f-side") || "right",
+      lastScan: checked("f-last-scan"),
+      note: val("f-note").trim()
+    };
+  }
+  function fPersistCycle() {
+    var st = fState();
+    st.cycle = fReadCycle();
+    fSaveState(st);
+  }
+  function isoAdd(iso, days) {
+    var d = parseLocalDate(iso);
+    if (!d) return "";
+    return addDays(d, days).toISOString().slice(0, 10);
+  }
+  function fLoadDemo(kind) {
+    var cd1 = new Date();
+    cd1.setHours(12, 0, 0, 0);
+    cd1.setDate(cd1.getDate() - (kind === "irregular" ? 24 : 16));
+    var d1 = cd1.toISOString().slice(0, 10);
+    var st;
+    if (kind === "normal") {
+      st = {
+        cycle: { type: "natural", cd1: d1, cycleLen: "28", luteal: "14", triggerDate: "", triggerType: "none" },
+        scans: [
+          { id: "d1", date: isoAdd(d1, 2), cycleDay: 3, approach: "tv", follicles: [{ ovary: "right", d1: "8", d2: "7", d3: "" }, { ovary: "left", d1: "6", d2: "6", d3: "" }], emMm: "4.0", emPattern: "menstrual", wall: "smooth", echoes: "none", fluid: "none", cl: "none", side: "right", lastScan: false, note: "Baseline" },
+          { id: "d2", date: isoAdd(d1, 7), cycleDay: 8, approach: "tv", follicles: [{ ovary: "right", d1: "12", d2: "11.5", d3: "" }, { ovary: "left", d1: "8", d2: "7", d3: "" }], emMm: "6.5", emPattern: "thin_prolif", wall: "smooth", echoes: "none", fluid: "none", cl: "none", side: "right", lastScan: false, note: "" },
+          { id: "d3", date: isoAdd(d1, 11), cycleDay: 12, approach: "tv", follicles: [{ ovary: "right", d1: "18.5", d2: "17.8", d3: "18.0" }], emMm: "8.5", emPattern: "trilaminar", wall: "smooth", echoes: "none", fluid: "none", cl: "none", side: "right", lastScan: false, note: "" },
+          { id: "d4", date: isoAdd(d1, 13), cycleDay: 14, approach: "tv", follicles: [{ ovary: "right", d1: "21.2", d2: "20.4", d3: "20.8" }], emMm: "10.0", emPattern: "trilaminar", wall: "smooth", echoes: "none", fluid: "none", cl: "none", side: "right", lastScan: false, note: "Mature-range leading follicle" },
+          { id: "d5", date: isoAdd(d1, 15), cycleDay: 16, approach: "tv", follicles: [{ ovary: "right", d1: "12", d2: "9", d3: "" }], emMm: "11.0", emPattern: "secretory", wall: "collapsed", echoes: "mixed", fluid: "small", cl: "typical", side: "right", lastScan: true, note: "Collapse + corpus luteum + POD fluid" }
+        ]
+      };
+    } else {
+      st = {
+        cycle: { type: "irregular", cd1: d1, cycleLen: "35", luteal: "14", triggerDate: "", triggerType: "none" },
+        scans: [
+          { id: "i1", date: isoAdd(d1, 4), cycleDay: 5, approach: "tv", follicles: [{ ovary: "right", d1: "6", d2: "5", d3: "" }, { ovary: "left", d1: "7", d2: "6", d3: "" }], emMm: "3.5", emPattern: "thin_prolif", wall: "smooth", echoes: "none", fluid: "none", cl: "none", side: "none", lastScan: false, note: "" },
+          { id: "i2", date: isoAdd(d1, 11), cycleDay: 12, approach: "tv", follicles: [{ ovary: "left", d1: "11", d2: "10.5", d3: "" }], emMm: "5.5", emPattern: "thin_prolif", wall: "smooth", echoes: "none", fluid: "none", cl: "none", side: "left", lastScan: false, note: "" },
+          { id: "i3", date: isoAdd(d1, 17), cycleDay: 18, approach: "tv", follicles: [{ ovary: "left", d1: "13.2", d2: "12.8", d3: "" }], emMm: "6.0", emPattern: "thin_prolif", wall: "smooth", echoes: "none", fluid: "none", cl: "none", side: "left", lastScan: false, note: "Slow growth" },
+          { id: "i4", date: isoAdd(d1, 23), cycleDay: 24, approach: "tv", follicles: [{ ovary: "left", d1: "14.0", d2: "13.6", d3: "" }], emMm: "6.2", emPattern: "thin_prolif", wall: "smooth", echoes: "none", fluid: "none", cl: "none", side: "left", lastScan: true, note: "No collapse, no corpus luteum" }
+        ]
+      };
+    }
+    fSaveState(st);
+    fWriteCycle(st.cycle);
+    fClearForm();
+    renderFolliculometry();
+    set("f-save-msg", kind === "normal" ? "Loaded a typical ovulatory teaching series." : "Loaded an irregular, inconclusive teaching series.");
+  }
+  function initFolliculometry() {
+    var st = fState();
+    fWriteCycle(st.cycle || {});
+    if (!val("f-cycle-len")) document.getElementById("f-cycle-len").value = "28";
+    if (!val("f-luteal")) document.getElementById("f-luteal").value = "14";
+    fRenderFollicleRows([fDefaultFollicle(), fDefaultFollicle()]);
+    document.getElementById("f-scan-date").value = new Date().toISOString().slice(0, 10);
+    fAutoCycleDay();
+
+    ["f-cycle-type","f-cd1","f-cycle-len","f-luteal","f-trigger-date","f-trigger-type","f-scan-date"].forEach(function (id) {
+      var el = document.getElementById(id);
+      if (!el) return;
+      el.addEventListener("change", function () {
+        fPersistCycle();
+        fAutoCycleDay();
+        renderFolliculometry();
+      });
+    });
+    document.getElementById("f-add-foll").addEventListener("click", function () {
+      var fol = fReadFolliclesFromForm();
+      fol.push(fDefaultFollicle());
+      fRenderFollicleRows(fol);
+    });
+    document.getElementById("f-save-scan").addEventListener("click", function () {
+      var scan = fCollectScan();
+      if (!scan) { set("f-save-msg", "Scan date is required."); return; }
+      var st2 = fState();
+      st2.cycle = fReadCycle();
+      st2.scans = st2.scans || [];
+      var idx = -1;
+      st2.scans.forEach(function (s, i) { if (s.id === scan.id) idx = i; });
+      if (idx >= 0) st2.scans[idx] = scan; else st2.scans.push(scan);
+      fSaveState(st2);
+      fEditingId = null;
+      set("f-save-msg", "Scan saved in this device’s tracking series.");
+      renderFolliculometry();
+    });
+    document.getElementById("f-new-scan").addEventListener("click", fClearForm);
+    document.getElementById("f-demo-normal").addEventListener("click", function () { fLoadDemo("normal"); });
+    document.getElementById("f-demo-irregular").addEventListener("click", function () { fLoadDemo("irregular"); });
+    document.getElementById("f-reset-series").addEventListener("click", function () {
+      if (!confirm("Clear the current folliculometry series from this device?")) return;
+      fSaveState({ cycle: fReadCycle(), scans: [] });
+      fClearForm();
+      renderFolliculometry();
+    });
+    renderFolliculometry();
+  }
+
+  function fReportSections() {
+    var st = fState();
+    var scans = fSortedScans(st.scans);
+    if (!scans.length) return [];
+    var cycle = st.cycle || {};
+    var out = [];
+    scans.forEach(function (s, i) {
+      var n = fScanNarrative(cycle, scans, i);
+      out.push({ title: "Folliculometry — CD " + (s.cycleDay != null ? s.cycleDay : "—") + " (" + formatDate(parseLocalDate(s.date)) + ")", html: "<p>" + fEsc(n.text) + "</p>" });
+    });
+    out.push({ title: "Folliculometry — trend", html: "<p>" + fEsc(fTrendNarrative(cycle, scans)) + "</p>" });
+    var fin = fFinalNarrative(cycle, scans);
+    out.push({ title: "Folliculometry — " + fin.title, html: "<p><strong>" + fEsc(fin.label ? fin.label.label : "") + "</strong></p><p>" + fEsc(fin.text) + "</p>" });
+    return out;
+  }
+
+  function renderAll() { renderBiometry(); renderDating(); renderDoppler(); renderFolliculometry(); }
 
   /* =========================================================================
      PATIENT LOG — fully local IndexedDB storage. Nothing is saved unless the
@@ -2438,8 +3171,7 @@
       { id: "ratio-card", title: "Body Proportion" }, { id: "dating-card", title: "Dating From This Scan" },
       { id: "growth-card", title: "Growth Centile" }, { id: "edd-card", title: "Estimated Due Date" },
       { id: "redate-card", title: "LMP vs Ultrasound" }, { id: "fhr-card", title: "Fetal Heart Rate" },
-      { id: "doppler-card", title: "Doppler" }, { id: "organ-result", title: "Organ Size" },
-      { id: "anomaly-result", title: "Anomaly Scan" }
+      { id: "doppler-card", title: "Doppler" }, { id: "organ-result", title: "Organ Size" }, { id: "anomaly-result", title: "Anomaly Scan" }
     ];
     var out = [];
     sections.forEach(function (s) {
@@ -2449,6 +3181,7 @@
       var hasEmpty = /class="empty"/.test(html) && !/result-num|compare-row|badge/.test(html);
       if (html.trim() && !hasEmpty) out.push({ title: s.title, html: html });
     });
+    fReportSections().forEach(function (s) { out.push(s); });
     return out;
   }
 
@@ -2459,37 +3192,8 @@
     }).join("");
   }
 
-  /* Impression: pulls the badge text already computed by every module (Biometry, Dating,
-     Doppler, Organ Size, Anomaly Scan) rather than re-deriving each classification a second
-     time \u2014 one source of truth per finding, the impression just aggregates the outputs. */
-  function collectFlaggedFindings(sections) {
-    var findings = { danger: [], warn: [] };
-    sections.forEach(function (s) {
-      var tmp = document.createElement("div");
-      tmp.innerHTML = s.html;
-      tmp.querySelectorAll(".badge").forEach(function (b) {
-        var cls = b.className.indexOf("danger") !== -1 ? "danger" : (b.className.indexOf("warn") !== -1 ? "warn" : null);
-        var text = (b.textContent || "").trim();
-        if (cls && text) findings[cls].push(s.title + " \u2014 " + text);
-      });
-    });
-    return findings;
-  }
-
-  function buildImpression(sections) {
-    var f = collectFlaggedFindings(sections);
-    var html = "";
-    if (f.danger.length) html += "<p><strong>Significant findings:</strong> " + f.danger.join("; ") + ".</p>";
-    if (f.warn.length) html += "<p><strong>Findings to correlate clinically:</strong> " + f.warn.join("; ") + ".</p>";
-    if (!f.danger.length && !f.warn.length && sections.length) html += "<p>No flagged findings among the parameters entered for this scan.</p>";
-    if (!sections.length) return "";
-    html += '<p class="note" style="margin-top:6px;">Auto-generated from the flagged findings on the pages that follow \u2014 review against the full measurements before finalising, and add clinical correlation plus anything this app doesn\u2019t capture.</p>';
-    return html;
-  }
-
   function showReport(meta) {
     var sections = buildReportSections();
-    set("report-impression", buildImpression(sections));
     set("report-body", reportHtmlFromSections(sections));
     set("report-meta", meta || ("Generated " + new Date().toLocaleString("en-GB")));
     window.print();
@@ -2519,7 +3223,6 @@
           } else {
             var row = rows.filter(function (r) { return r.id === id; })[0];
             if (row) {
-              set("report-impression", buildImpression(row.snapshot || []));
               set("report-body", reportHtmlFromSections(row.snapshot || []));
               set("report-meta", "Saved " + new Date(row.createdAt).toLocaleString("en-GB") + (row.initials || row.patientId ? " \u2014 " + [row.initials, row.patientId].filter(Boolean).join(" \u00b7 ") : ""));
               window.print();
@@ -2576,13 +3279,13 @@
   function onReady() {
     // Tabs
     var tabs = document.querySelectorAll(".tab");
-    var views = { biometry: document.getElementById("view-biometry"), dating: document.getElementById("view-dating"), doppler: document.getElementById("view-doppler"), organ: document.getElementById("view-organ"), log: document.getElementById("view-log"), anomaly: document.getElementById("view-anomaly"), quiz: document.getElementById("view-quiz"), references: document.getElementById("view-references") };
+    var views = { biometry: document.getElementById("view-biometry"), dating: document.getElementById("view-dating"), doppler: document.getElementById("view-doppler"), organ: document.getElementById("view-organ"), log: document.getElementById("view-log"), anomaly: document.getElementById("view-anomaly"), quiz: document.getElementById("view-quiz"), follicle: document.getElementById("view-follicle") };
     function showTab(name) {
       tabs.forEach(function (t) { t.classList.toggle("active", t.getAttribute("data-tab") === name); });
       Object.keys(views).forEach(function (k) { views[k].classList.toggle("active", k === name); });
     }
     tabs.forEach(function (t) { t.addEventListener("click", function () { showTab(t.getAttribute("data-tab")); }); });
-    showTab("biometry");
+    showTab("dating");
 
     // Biometry unit toggle
     var bioToggle = document.getElementById("bio-unit-toggle");
@@ -2590,7 +3293,7 @@
       b.addEventListener("click", function () {
         bioUnit = b.getAttribute("data-unit");
         bioToggle.querySelectorAll("button").forEach(function (x) { x.classList.toggle("on", x === b); });
-        ["u1", "u2", "u3", "u4", "u5"].forEach(function (id) { document.getElementById(id).textContent = bioUnit; });
+        ["u1", "u2", "u3", "u4"].forEach(function (id) { document.getElementById(id).textContent = bioUnit; });
         renderAll();
       });
     });
@@ -2600,7 +3303,7 @@
     scanDateEl.value = new Date().toISOString().slice(0, 10);
 
     // Wire all inputs to re-render everything (simple, robust for a calculator this size)
-    var ids = ["b-bpd","b-ofd","b-hc-direct","b-ac","b-fl","b-estwk","b-estd",
+    var ids = ["b-bpd","b-ofd","b-ac","b-fl","b-estwk","b-estd",
       "d-lmp","d-crl","d-msd","d-scandate","fhr-wk","fhr-d","fhr-bpm",
       "dp-wk","dp-d","dp-uapi","dp-aedf","dp-redf","dp-mcapi","dp-mcapsv",
       "dp-utpi","dp-notch","dp-dvpi","dp-dvaw"];
@@ -2609,16 +3312,6 @@
       if (!el) return;
       var evt = (el.type === "checkbox" || el.tagName === "SELECT" || el.type === "date") ? "change" : "input";
       el.addEventListener(evt, renderAll);
-    });
-
-    // Key Dates calculator: d-lmp already renders the rest of the app via the listener above;
-    // this adds the additional recompute of the key-dates card specifically, and wires the
-    // other four fields so editing any of them back-solves LMP and repopulates everything.
-    var lmpEl = document.getElementById("d-lmp");
-    if (lmpEl) lmpEl.addEventListener("change", function () { onKeyDateEdited("lmp"); });
-    ["conception", "tri2", "tri3", "edd"].forEach(function (k) {
-      var el = document.getElementById(KEY_DATE_IDS[k]);
-      if (el) el.addEventListener("change", function () { onKeyDateEdited(k); });
     });
 
     // Organ Size tab manages its own picker + dynamic inputs
@@ -2635,6 +3328,8 @@
     // Quiz tab
     initQuiz();
 
+    initFolliculometry();
+
     renderAll();
   }
 
@@ -2644,6 +3339,7 @@
 
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", function () {
+    if (window.self !== window.top) return;
     navigator.serviceWorker.register("sw.js").catch(function () {});
   });
 }

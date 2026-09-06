@@ -1,7 +1,7 @@
 {
-  "name": "Sonogen",
-  "short_name": "Sonogen",
-  "description": "Obstetric and sonographic biometry: head shape, fetal weight, dating, growth, Doppler, and organ size reference.",
+  "name": "Babsinogen",
+  "short_name": "Babsinogen",
+  "description": "Obstetric biometry, Doppler, anomaly markers, and serial folliculometry. Works offline. Data stays on this device.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
